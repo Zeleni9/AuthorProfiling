@@ -1,7 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
 from collections import defaultdict
-import re
 
 class Preprocessing:
 
@@ -20,25 +19,12 @@ class Preprocessing:
             root = tree.getroot()
             user_id = root.attrib['id']
             for child in root:
-                text.append(child.text)
+                text.append(child.text.strip())
             users[user_id] = text
 
         self.users = users
         self.truth_file = truth
 
-    def clean_data(self):
-
-        for key, value in self.users.iteritems():
-            clean_lines = []
-
-            for line in value:
-                # removing -> This is a tweet with a url: http://t.co/0DlGChTBIx
-                result = re.sub(r"http\S+", "", line)
-                # other cleaning
-                clean_lines.append(result)
-
-
-            self.users[key] = clean_lines
 
     def truth_data(self):
         tmp = defaultdict(list)
@@ -47,8 +33,9 @@ class Preprocessing:
             for user in data:
                 token = user.split(":::")
                 tmp[token[0]] = [token[1], token[2]]
+                # Big five classification labels is in token 3-7
         self.truth_users = tmp
-
 
     def get_data(self):
         return self.users, self.truth_users
+
