@@ -1,0 +1,16 @@
+TODO ZADACI:
+
+    Istražiti normalizaciju i skaliranje feature-a
+    Istražiti trigrams i TFDIF (izgled i korištenje)
+    Napraviti bazu emoticona  (ratio)
+    Napraviti bazu most frequent age words
+    Napraviti bazu swag riječi (ratio)
+
+    Number of uppercase counting
+    Number of punctation count
+    Number of character overload counr
+    Dužina tweetova
+
+    Grci -> čime skaliraju count@, count hashtags, count URLs ?
+
+    ** Izbaciti stop riječi prije Trigrama !
