@@ -2,7 +2,7 @@ import os
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 
-class Preprocessing:
+class Preprocess:
 
     def __init__(self, folder):
         self.folder = folder
@@ -25,7 +25,7 @@ class Preprocessing:
         self.users = users
         self.truth_file = truth
 
-
+    # splitting truth data per user to tokens (age, gender, big five classes)
     def truth_data(self):
         tmp = defaultdict(list)
         with open(self.truth_file) as f:

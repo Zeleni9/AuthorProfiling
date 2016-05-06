@@ -10,32 +10,39 @@ import nltk
 from nltk import word_tokenize
 from nltk.util import ngrams
 
-from preprocessing import Preprocessing
-from features import Features
+from sklearn.metrics import accuracy_score
+
+from preprocessing import Preprocess
+from ageFeatureExtraction import AgeFeatureExtraction
+from genderFeatureExtraction import GenderFeatureExtraction
 
 def main():
 
     path = os.getcwd()
     print path
-    pre_process = Preprocessing(path)
+    pre_process = Preprocess(path)
     pre_process.load_data()
     pre_process.truth_data()
     users, truth_users = pre_process.get_data()
 
 
-    features = Features(users, truth_users, '/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/stopwords.txt')
-    features.clean_data()
-    train_x, train_y, test_x, test,y= features.prepare_data()
-
+    features = AgeFeatureExtraction(users, truth_users, '/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/stopwords.txt')
+    features.extract_features()
+    train_x, train_y, test_x, test_y = features.get_train_test_data()
 
     log_reg = LogReg()
     log_reg.fit(train_x, train_y)
 
+    svm_clf = svm.SVC()
+    svm_clf.fit(train_x, train_y)
 
+    predicted_y = log_reg.predict(test_x)
+    score = accuracy_score(test_y, predicted_y)
 
-
-    print log_reg.predict(novi)
-
+    predicted_y_svm = svm_clf.predict(test_x)
+    score_2 = accuracy_score(test_y, predicted_y_svm)
+    print " Score Log Reg : ", score
+    print " SVM Score : ", score_2
 
 
     #tokenizer = TweetTokenizer()
