@@ -17,12 +17,13 @@ class AgeFeatureExtraction(FeatureExtraction):
         for key, value in self.users.iteritems():
 
             word_count = self.word_count(''.join(value))
+            char_count = self.char_count(''.join(value))
 
             text, url_count = self.process_links(value)
-            self.structural_features[key].append(url_count/word_count)
+            #self.structural_features[key].append(url_count/word_count)
 
             text, mention_count = self.process_mentions(text)
-            self.structural_features[key].append(mention_count/word_count)
+            #self.structural_features[key].append(mention_count/word_count)
 
 
             text, hastag_count = self.process_hashtags(text)
@@ -31,11 +32,17 @@ class AgeFeatureExtraction(FeatureExtraction):
             stopwords_count = self.count_stopwords(text)
             self.structural_features[key].append(stopwords_count/word_count)
 
+            # character overload count
+            char_overload_count = self.char_overload_count(''.join(value))
+            self.structural_features[key].append(char_overload_count/char_count)
 
+            # tweet length ratio
+            tweet_length_avg = self.tweet_length_avg(value)
+            self.structural_features[key].append(tweet_length_avg / self.TWEET_LEN_MAX)
 
             # print self.structural_features
             # punctaion count
-            # character overload count
+
             # swag ratio
             # emoticon ratio (iz baze)
             # duzinu tweetova
