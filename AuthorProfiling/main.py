@@ -5,16 +5,11 @@ from sklearn import svm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn import cross_validation
-from nltk.tokenize import TweetTokenizer
-import nltk
-from nltk import word_tokenize
-from nltk.util import ngrams
-
 from sklearn.metrics import accuracy_score
-
 from preprocessing import Preprocess
 from ageFeatureExtraction import AgeFeatureExtraction
-from genderFeatureExtraction import GenderFeatureExtraction
+
+STOP_WORDS_PATH='C:/Users/borna/Desktop/TAR/Minesweepers_AuthorProfiling/AuthorProfiling/stopwords.txt'
 
 def main():
 
@@ -26,9 +21,10 @@ def main():
     users, truth_users = pre_process.get_data()
 
 
-    features = AgeFeatureExtraction(users, truth_users, '/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/stopwords.txt')
+    features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH)
     features.extract_features()
     train_x, train_y, test_x, test_y = features.get_train_test_data()
+
 
     log_reg = LogReg()
     log_reg.fit(train_x, train_y)
@@ -44,18 +40,6 @@ def main():
     print " Score Log Reg : ", score
     print " SVM Score : ", score_2
 
-
-    #tokenizer = TweetTokenizer()
-    #rec = "Ivan doesnt like shcool :)"
-    #tokens = tokenizer.tokenize(rec)
-    #trigrams = ngrams(tokens, 3)
-
-
-    #token_trigrams = [' '.join(tri) for tri in trigrams]
-    #print token_trigrams
-    # Loadanje featur-a
-
-    # Odabir model
 
     #initialize classifiers
     #log_reg = LogReg()

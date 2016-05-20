@@ -2,6 +2,7 @@ from __future__ import division
 from collections import defaultdict
 
 from featureExtraction import FeatureExtraction
+from sklearn.preprocessing import StandardScaler
 
 class AgeFeatureExtraction(FeatureExtraction):
 
@@ -20,17 +21,17 @@ class AgeFeatureExtraction(FeatureExtraction):
             char_count = self.char_count(''.join(value))
 
             text, url_count = self.process_links(value)
-            #self.structural_features[key].append(url_count/word_count)
+            self.structural_features[key].append(url_count/word_count)
 
             text, mention_count = self.process_mentions(text)
             #self.structural_features[key].append(mention_count/word_count)
 
 
             text, hastag_count = self.process_hashtags(text)
-            self.structural_features[key].append(hastag_count/word_count)
+            #self.structural_features[key].append(hastag_count/word_count)
 
             stopwords_count = self.count_stopwords(text)
-            self.structural_features[key].append(stopwords_count/word_count)
+            #self.structural_features[key].append(stopwords_count/word_count)
 
             # character overload count
             char_overload_count = self.char_overload_count(''.join(value))
@@ -40,17 +41,13 @@ class AgeFeatureExtraction(FeatureExtraction):
             tweet_length_avg = self.tweet_length_avg(value)
             self.structural_features[key].append(tweet_length_avg / self.TWEET_LEN_MAX)
 
-            # print self.structural_features
-            # punctaion count
-
-            # swag ratio
-            # emoticon ratio (iz baze)
-            # duzinu tweetova
+            # word length ratio
+            word_length_avg = self.word_length_avg(value)
+            self.structural_features[key].append(word_length_avg)
 
         self.data = self.join_users_truth(self.structural_features, self.transform_age, self.type)
-
-
         self.feature_number = len(self.structural_features.values()[0])
+
 
     def get_train_test_data(self):
         return self.prepare_data(self.data, self.feature_number)
