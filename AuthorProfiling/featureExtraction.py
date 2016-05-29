@@ -2,10 +2,14 @@ from __future__ import division
 from collections import defaultdict
 import re
 import numpy as np
-from nltk.tokenize import RegexpTokenizer
+
 from nltk.util import ngrams
 import collections
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
+from nltk.tokenize import RegexpTokenizer
+from nltk.stem.porter import PorterStemmer
+from nltk.corpus import words as nltk_corpus
 
 from sklearn.preprocessing import StandardScaler
 
@@ -28,17 +32,17 @@ class FeatureExtraction(object):
 
     def process_links(self, input):
         (result, count) = re.subn(r"http\S+", "", '\n'.join(input), flags=re.MULTILINE)
-        return result.split('\n'), count
+        return result.split('\n'), float(count)/len(input)
 
 
     def process_mentions(self, input):
-        (result, count) = re.subn(r"@username\s*", "", '\n'.join(input), flags=re.MULTILINE)
-        return result.split('\n'), count
+        (result, count) = re.subn(r"@username", "", '\n'.join(input), flags=re.MULTILINE)
+        return result.split('\n'), float(count)/len(input)
 
 
     def process_hashtags(self, input):
         (result, count) = re.subn(r"#", "", '\n'.join(input), flags=re.MULTILINE)
-        return result.split('\n'), count
+        return result.split('\n'), float(count)/len(input)
 
 
     def count_stopwords(self, input):
@@ -47,7 +51,7 @@ class FeatureExtraction(object):
             for word in tweet.split(' '):
                 if word.strip() in self.stopwords:
                     count = count + 1
-        return count
+        return count/len(input)
 
 
     def word_count(self, input):
@@ -61,6 +65,42 @@ class FeatureExtraction(object):
         count = 0
         for char in input:
             count += 1
+        return count
+
+
+    def three_dot_count(self,input):
+        count=0;
+        for tweet in input:
+            count+=tweet.count('...')
+        return count
+
+
+    def exclamation_overload_count(self, input):
+        count = 0;
+        for tweet in input:
+            count += len(re.findall('!!+',tweet))
+        return count
+
+
+    def punctuation_count(self, input):
+        count = 0;
+        for tweet in input:
+            count += len(re.findall('[?.!]', tweet))
+        return count
+
+
+    def emoticon_count(self,input):
+        count = 0;
+        for tweet in input:
+            count += len(re.findall('[:;][/)\'P*D(]', tweet))
+            count += len(re.findall('<3',tweet))
+        return count
+
+
+    def quotation_count(self, input):
+        count = 0;
+        for tweet in input:
+            count += len(re.findall('"', tweet))
         return count
 
 
@@ -78,6 +118,7 @@ class FeatureExtraction(object):
         lengths = [len(i) for i in input]
         return 0 if len(lengths) == 0 else (float(sum(lengths)) / len(lengths))
 
+
     # returns average word length in tweets
     def word_length_avg(self, input):
         word_lengths =  []
@@ -88,30 +129,57 @@ class FeatureExtraction(object):
 
 
     #returns tfidf matrix for trigrams in dataset
-    def get_trigrams_tf_idf(self, input):
-        trigram_vectorizer = TfidfVectorizer(tokenizer=self.tokens,ngram_range=(1, 1),stop_words=self.stopwords, min_df=1)
+    def get_trigrams_tf_idf(self, input , feature_num):
+        trigram_vectorizer = TfidfVectorizer(tokenizer=self.tokens_trigrams,ngram_range=(1, 1),stop_words=self.stopwords, max_features=feature_num)
         X = trigram_vectorizer.fit_transform(input)
+        # features = trigram_vectorizer.get_feature_names()
+        # print features
         return X.toarray()
 
 
-    #input = list of all tweets in dataset (all tweets of user - one element of list)
+    #input = all tweets of  one user
     #tweets are separated with '||'"
     #with this method TfidfVectorizer produces trigrams (trigram = string composed of 3 words) for which tfidf values are computed
-    def tokens(self, input):
+    def tokens_trigrams(self, input):
+        stemmer=PorterStemmer()
         trigrams=set()
-        all_tweets=input.split('||')
-        for tweet in all_tweets:
+        tweets=input.split('||')
+        for tweet in tweets:
             tokenizer = RegexpTokenizer(r'[a-z]+')
             tokens = tokenizer.tokenize(tweet.lower())
-            filtered_words = [word for word in tokens if not word in self.stopwords]
+            filtered_words = [stemmer.stem(word) for word in tokens if not word in self.stopwords]
             for trigram in ngrams(filtered_words, 3):
                 trigrams.add(' '.join(trigram))
         return list(trigrams)
 
+
+    # returns tfidf matrix for unigrams in dataset
+    def get_unigrams_tf_idf(self, input, feature_num):
+        trigram_vectorizer = TfidfVectorizer(tokenizer=self.tokens_unigrams, ngram_range=(1, 1),
+                                             stop_words=self.stopwords, max_features=feature_num)
+        X = trigram_vectorizer.fit_transform(input)
+        # features = trigram_vectorizer.get_feature_names()
+        # print features
+        return X.toarray()
+
+
+    def tokens_unigrams(self, input):
+        stemmer = PorterStemmer()
+        unigrams = set()
+        all_tweets = input.split('||')
+        for tweet in all_tweets:
+            tokenizer = RegexpTokenizer(r'[a-z]+')
+            tokens = tokenizer.tokenize(tweet.lower())
+            filtered_words = [stemmer.stem(word) for word in tokens if not word in self.stopwords]
+            for unigram in filtered_words:
+                unigrams.add(unigram)
+        return list(unigrams)
+
+
     # Method joins features dictionary with truth dictionary by user
     def join_users_truth(self, structural_features, transform, type):
         data = defaultdict(list)
-        for key, value in self.users.iteritems():
+        for key in self.users.keys():
             y_label = transform(self.truth_users[key][type])
             features = structural_features[key]
             data[key] = [features, y_label]      # Appends list of features and y value for each user
@@ -119,7 +187,7 @@ class FeatureExtraction(object):
 
 
     # Method splitting vector [[features], [label]] into train_x and train_y
-    # Values are normalized with StandardScaler [-3,3]
+    # Values are normalized with StandardScaler
     def prepare_data(self, data, feature_number):
         len_data = len(data.keys())
         train_num = int( len_data * self.train_coeff)
