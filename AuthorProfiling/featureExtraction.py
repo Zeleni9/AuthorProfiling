@@ -11,6 +11,7 @@ from nltk.tokenize import RegexpTokenizer
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import words as nltk_corpus
 
+from sklearn.utils import shuffle
 from sklearn.preprocessing import StandardScaler
 
 class FeatureExtraction(object):
@@ -189,11 +190,18 @@ class FeatureExtraction(object):
     # Method splitting vector [[features], [label]] into train_x and train_y
     # Values are normalized with StandardScaler
     def prepare_data(self, data, feature_number):
+
+        shuffled_data = defaultdict(list)
+        keys = shuffle(list(data.keys()))
+        for key in keys:
+            shuffled_data[key] = data[key]
+
+
         len_data = len(data.keys())
         train_num = int( len_data * self.train_coeff)
         data_x = np.zeros(shape=(len_data, feature_number))
-        data_y = np.zeros(shape=(len_data, self.y_column))
-        for i, value in enumerate(data.itervalues()):
+        data_y = np.zeros(shape=len_data)
+        for i, value in enumerate(shuffled_data.itervalues()):
             data_x[i] = value[0]
             data_y[i] = value[1]
         scaler = StandardScaler().fit(data_x)
