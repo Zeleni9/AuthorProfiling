@@ -15,7 +15,10 @@ from ageFeatureExtraction import AgeFeatureExtraction
 from genderFeatureExtraction import GenderFeatureExtraction
 from sklearn.linear_model import RandomizedLasso
 
-STOP_WORDS_PATH='/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/stopwords.txt'
+STOP_WORDS_PATH='C:\Users\User\Documents\Minesweepers_AuthorProfiling\AuthorProfiling\stopwords.txt'
+SWAG_WORDS_PATH='C:\Users\User\Documents\Minesweepers_AuthorProfiling\AuthorProfiling\swag_words.txt'
+FREQUENT_MALE_WORDS_PATH="C:/Users/User/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/frequent_male_words.txt"
+FREQUENT_FEMALE_WORDS_PATH='C:/Users/User/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/frequent_female_words.txt'
 
 def main():
 
@@ -26,8 +29,8 @@ def main():
     pre_process.truth_data()
     users, truth_users = pre_process.get_data()
 
-
-    features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH)
+    features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
+    #features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
     features.extract_features()
 
     iterations = 15
@@ -94,7 +97,7 @@ def main():
     log_reg = LogReg()
     svm_clf = svm.SVC()
     ranfor_clf = RandomForestClassifier()
-    clfs = {'logistic regression' : log_reg, 'SVM SVC(rbf)' : svm_clf, 'random forest' : ranfor_clf}
+    clfs = {'SVM SVC(rbf)' : svm_clf, 'random forest' : ranfor_clf, 'logistic regression' : log_reg}
     for clf in clfs:
         scores = cross_validation.cross_val_score(clfs[clf], train_x, train_y, cv=10)
         print clf + ' : ' + str(scores.mean())

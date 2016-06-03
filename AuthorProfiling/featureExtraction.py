@@ -54,6 +54,27 @@ class FeatureExtraction(object):
                     count = count + 1
         return count/len(input)
 
+    # returns count of words in input tweets that apeear in word_list
+    # can be used for multiple features, such as: count swag, count frequent male words...
+    def count_feature_from_file(self, tweets, word_list):
+        count = 0
+
+        for tweet in tweets:
+            for word in tweet.split(' '):
+                word = re.sub(r"[^A-Za-z']", "", word)
+                if word in word_list:
+                    count += 1
+
+        return count
+
+    # return count of uppercase words in all tweets
+    def uppercase_words_count(self, input):
+        count = 0
+        for tweet in input:
+            for word in tweet.split(' '):
+                if len(word) > 0 and word[0].isupper():
+                    count += 1
+        return count
 
     def word_count(self, input):
         count = 0
@@ -127,6 +148,16 @@ class FeatureExtraction(object):
             for word in tweet.split(' '):
                 word_lengths.append(len(word))
         return float(sum(word_lengths)) / len(word_lengths)
+
+    # append features for every user from ngram TF-IDF matrix
+    def append_ngram_tfidf_features(self, ngram_tfidf_matrix, structural_features):
+        row_idx = 0
+        for key in self.sorted_users.keys():
+            for value in ngram_tfidf_matrix[row_idx]:
+                structural_features[key].append(value)
+            row_idx += 1
+
+        return structural_features
 
 
     #returns tfidf matrix for trigrams in dataset

@@ -11,10 +11,17 @@ from sklearn.preprocessing import StandardScaler
 
 class AgeFeatureExtraction(FeatureExtraction):
 
-    def __init__(self, users, truth_users, stopwords_file):
+    def __init__(self, users, truth_users, stopwords_file, swagwords_file):
         self.structural_features = defaultdict(list)
         self.type = 1
         self.data = defaultdict(list)
+        self.swag_words = []
+
+        with open(swagwords_file) as f:
+            data = f.readlines()
+            for line in data:
+                self.swag_words.append(line.strip())
+
         super(AgeFeatureExtraction, self).__init__(users, truth_users, stopwords_file)
 
 
@@ -24,11 +31,15 @@ class AgeFeatureExtraction(FeatureExtraction):
 
         for key, value in self.sorted_users.iteritems():
 
+            # uppercase words count
+            uppercase_words_count = self.uppercase_words_count(value)
+            self.structural_features[key].append(uppercase_words_count)
+
             text, url_count = self.process_links(value)
             self.structural_features[key].append(url_count)
 
             text, mention_count = self.process_mentions(text)
-            self.structural_features[key].append(mention_count)
+            #self.structural_features[key].append(mention_count)
 
             text, hastag_count = self.process_hashtags(text)
             self.structural_features[key].append(hastag_count)
@@ -49,6 +60,10 @@ class AgeFeatureExtraction(FeatureExtraction):
             word_length_avg = self.word_length_avg(value)
             self.structural_features[key].append(word_length_avg)
 
+            # swag count
+            swag_count = self.count_feature_from_file(value, self.swag_words)
+            #self.structural_features[key].append(swag_count)
+
             # ... count
             three_dot_count=self.three_dot_count(value)
             self.structural_features[key].append(three_dot_count)
@@ -57,7 +72,7 @@ class AgeFeatureExtraction(FeatureExtraction):
             exclamation_count = self.exclamation_overload_count(value)
             #self.structural_features[key].append(exclamation_count)
 
-            #" count
+            # " count
             quotation_count = self.quotation_count(value)
             self.structural_features[key].append(quotation_count)
 
@@ -80,20 +95,11 @@ class AgeFeatureExtraction(FeatureExtraction):
                 frequent_trigrams += 1
         print frequent_trigrams
 
-        self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs, frequent_trigrams))
-        #self.append_ngram_tfidf_features(self.get_unigrams_tf_idf(docs, 1000))
+        self.structural_features = self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs, frequent_trigrams), self.structural_features)
+        #self.structural_features = self.append_ngram_tfidf_features(self.get_unigrams_tf_idf(docs, 1000), self.structural_features)
 
         self.data = self.join_users_truth(self.structural_features, self.transform_age, self.type)
         self.feature_number = len(self.structural_features.values()[0])
-
-
-    #append features for every user from ngram TF-IDF matrix
-    def append_ngram_tfidf_features(self,ngram_tfidf_matrix):
-        row_idx = 0
-        for key in self.sorted_users.keys():
-            for value in ngram_tfidf_matrix[row_idx]:
-                self.structural_features[key].append(value)
-            row_idx += 1
 
 
     def get_train_test_data(self):
