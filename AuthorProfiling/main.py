@@ -4,6 +4,7 @@ from sklearn.linear_model import LogisticRegression as LogReg
 from sklearn.naive_bayes import GaussianNB
 from sklearn import svm
 import re
+import nltk
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn import cross_validation
@@ -14,32 +15,42 @@ from sklearn.ensemble import ExtraTreesClassifier
 from ageFeatureExtraction import AgeFeatureExtraction
 from genderFeatureExtraction import GenderFeatureExtraction
 from sklearn.linear_model import RandomizedLasso
+from nltk.tokenize import TweetTokenizer
+from nltk.tag import PerceptronTagger
+from nltk.tag import StanfordPOSTagger
+from nltk.tag.stanford import StanfordPOSTagger
+import time
 
-STOP_WORDS_PATH='C:\Users\User\Documents\Minesweepers_AuthorProfiling\AuthorProfiling\stopwords.txt'
-SWAG_WORDS_PATH='C:\Users\User\Documents\Minesweepers_AuthorProfiling\AuthorProfiling\swag_words.txt'
-FREQUENT_MALE_WORDS_PATH="C:/Users/User/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/frequent_male_words.txt"
-FREQUENT_FEMALE_WORDS_PATH='C:/Users/User/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/frequent_female_words.txt'
+PATH_TO_PROJECT_DIRECTORY='C:/Users/borna/Desktop/TAR/Minesweepers_AuthorProfiling/AuthorProfiling/'
+STOP_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'stopwords.txt'
+SWAG_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'swag_words.txt'
+FREQUENT_MALE_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'frequent_male_words.txt'
+FREQUENT_FEMALE_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'frequent_female_words.txt'
+STANFORD_POS_TAGGER_MODEL = PATH_TO_PROJECT_DIRECTORY + 'stanford-postagger/models/english-bidirectional-distsim.tagger'
+STANFORD_POS_TAGGER_JAR = PATH_TO_PROJECT_DIRECTORY+ 'stanford-postagger/stanford-postagger.jar'
 
 def main():
 
+    start_time=time.time()
     path = os.getcwd()
     #print path
+    # nltk.download('punkt')
+    # nltk.download('averaged_perceptron_tagger')
+
+
     pre_process = Preprocess(path)
     pre_process.load_data()
     pre_process.truth_data()
     users, truth_users = pre_process.get_data()
 
-    features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
-    #features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
+    #features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
+    features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
     features.extract_features()
 
-    iterations = 15
+    iterations = 100
     score_log_reg = 0
     score_svm = 0
     score_random_forest = 0
-    score_svr = 0
-    score_linearSVC = 0
-    score_linearSVR = 0
     for i in xrange(0, iterations):
         train_x, train_y, test_x, test_y = features.get_train_test_data()
 
@@ -91,17 +102,20 @@ def main():
 
 
     #initialize classifiers
-    print ""
-    print "Cross validation cv=10 on train data"
-    train_x, train_y, test_x, test_y = features.get_train_test_data()
-    log_reg = LogReg()
-    svm_clf = svm.SVC()
-    ranfor_clf = RandomForestClassifier()
-    clfs = {'SVM SVC(rbf)' : svm_clf, 'random forest' : ranfor_clf, 'logistic regression' : log_reg}
-    for clf in clfs:
-        scores = cross_validation.cross_val_score(clfs[clf], train_x, train_y, cv=10)
-        print clf + ' : ' + str(scores.mean())
+    # print ""
+    # print "Cross validation cv=10 on train data"
+    # train_x, train_y, test_x, test_y = features.get_train_test_data()
+    # log_reg = LogReg()
+    # svm_clf = svm.SVC()
+    # ranfor_clf = RandomForestClassifier()
+    # clfs = {'Score Log Reg' : log_reg, 'SVM Score' : svm_clf, 'Random Forest Score' : ranfor_clf}
+    # for clf in clfs.keys():
+    #     scores = cross_validation.cross_val_score(clfs[clf], train_x, train_y, cv=10)
+    #     print clf + ' : ' + str(scores.mean())
 
+    run_time=time.time() - start_time
+    print("")
+    print ("Run Time: " + str(run_time) + "s")
 
 # Starting point of program
 main()
