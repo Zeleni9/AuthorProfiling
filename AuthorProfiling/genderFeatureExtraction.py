@@ -37,41 +37,41 @@ class GenderFeatureExtraction(FeatureExtraction):
         for key, value in self.sorted_users.iteritems():
 
             text, url_count = self.process_links(value)
-            # self.structural_features[key].append(url_count)
+            #self.structural_features[key].append(url_count)
 
             text, mention_count = self.process_mentions(text)
-            # self.structural_features[key].append(mention_count)
+            #self.structural_features[key].append(mention_count)
 
             text, hastag_count = self.process_hashtags(text)
-            # self.structural_features[key].append(hastag_count)
+            #self.structural_features[key].append(hastag_count)
 
             # counts most frequent male function words
             frequent_male_function_words_count = self.count_feature_from_file(value, ['the', 'this', 'that'])
-            self.structural_features[key].append(frequent_male_function_words_count)
+            #self.structural_features[key].append(frequent_male_function_words_count)
 
             # counts most frequent female function words
             frequent_female_function_words_count = self.count_feature_from_file(value, ['for', 'with', 'she'])
-            self.structural_features[key].append(frequent_female_function_words_count)
+            #self.structural_features[key].append(frequent_female_function_words_count)
 
             # counts words that are most likely to be used by men
             frequent_male_words_count = self.count_feature_from_file(value, self.frequent_male_words)
-            self.structural_features[key].append(frequent_male_words_count)
+            #self.structural_features[key].append(frequent_male_words_count)
 
             # counts words that are most likely to be used by women
             frequent_female_words_count = self.count_feature_from_file(value, self.frequent_female_words)
-            self.structural_features[key].append(frequent_female_words_count)
+            #self.structural_features[key].append(frequent_female_words_count)
 
             # character overload count
             char_count = self.char_count(''.join(value))
             char_overload_count = self.char_overload_count(''.join(value))
-            self.structural_features[key].append(char_overload_count / char_count)
+            #self.structural_features[key].append(char_overload_count / char_count)
 
             # !!+ count
             exclamation_count = self.exclamation_overload_count(value)
-            self.structural_features[key].append(exclamation_count)
+            #self.structural_features[key].append(exclamation_count / char_count)
 
             stopwords_count = self.count_stopwords(text)
-            # self.structural_features[key].append(stopwords_count/word_count)
+            #self.structural_features[key].append(stopwords_count/word_count)
 
             for trigram in self.tokens_trigrams('||'.join(text)):
                 trigram_count[trigram] = trigram_count.get(trigram, 0) + 1

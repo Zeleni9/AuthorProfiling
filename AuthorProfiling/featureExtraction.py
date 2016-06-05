@@ -223,7 +223,7 @@ class FeatureExtraction(object):
     def prepare_data(self, data, feature_number):
 
         shuffled_data = defaultdict(list)
-        keys = shuffle(list(data.keys()), random_state=42)
+        keys = shuffle(list(data.keys()))
         for key in keys:
             shuffled_data[key] = data[key]
 
