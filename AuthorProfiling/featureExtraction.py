@@ -149,6 +149,10 @@ class FeatureExtraction(object):
                 word_lengths.append(len(word))
         return float(sum(word_lengths)) / len(word_lengths)
 
+
+
+
+
     # append features for every user from ngram TF-IDF matrix
     def append_ngram_tfidf_features(self, ngram_tfidf_matrix, structural_features):
         row_idx = 0
@@ -156,7 +160,6 @@ class FeatureExtraction(object):
             for value in ngram_tfidf_matrix[row_idx]:
                 structural_features[key].append(value)
             row_idx += 1
-
         return structural_features
 
 

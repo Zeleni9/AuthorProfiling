@@ -10,15 +10,22 @@ from genderFeatureExtraction import GenderFeatureExtraction
 from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
 from sklearn.cross_validation import StratifiedKFold
 from sklearn.linear_model import LogisticRegression
+import time
+import nltk
 
-STOP_WORDS_PATH='/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/stopwords.txt'
-SWAG_WORDS_PATH='/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/swag_words.txt'
-FREQUENT_MALE_WORDS_PATH="/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/frequent_male_words.txt"
-FREQUENT_FEMALE_WORDS_PATH='/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/frequent_female_words.txt'
+PATH_TO_PROJECT_DIRECTORY='C:/Users/borna/Desktop/TAR/Minesweepers_AuthorProfiling/AuthorProfiling/'
+STOP_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'stopwords.txt'
+SWAG_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'swag_words.txt'
+FREQUENT_MALE_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'frequent_male_words.txt'
+FREQUENT_FEMALE_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'frequent_female_words.txt'
 
 def main():
 
+    start_time=time.time()
     path = os.getcwd()
+    #print path
+    nltk.download('punkt')
+    nltk.download('averaged_perceptron_tagger')
     pre_process = Preprocess(path)
     pre_process.load_data()
     pre_process.truth_data()
@@ -123,6 +130,10 @@ def main():
     # model.fit(train_x, train_y)
     # # display the relative importance of each attribute
     # print(model.feature_importances_)
+
+    run_time=time.time() - start_time
+    print("")
+    print ("Run Time: " + str(run_time) + "s")
 
 # Starting point of program
 main()
