@@ -1,0 +1,184 @@
+Author profiling notes:
+
+  Zelic TODO:
+
+    SVM - model selection
+    http://scikit-learn.org/stable/modules/grid_search.html
+    - proučiti test_split function
+    - uzeti cijeli data set ispisati feature i pogledati kako izlgedaju
+    - skalirati sve na [-1,1]
+    - nakon toga podijeliti koristeći test_split_function
+    - development set (70%) feed to grid search
+    - evaluation set  (30%) for evaluating metrics -> koliko je dobar model
+
+    Logistic regression - model selection
+        param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000] }
+        clf = GridSearchCV(LogisticRegression(penalty='l2'), param_grid)
+
+    feature selection
+    http://scikit-learn.org/stable/modules/feature_selection.html
+
+
+    - isprobati za gender samo tdif unigrams i trigrams
+    - skalirati na [-1,1]
+    - koristiti linear i rbf u grid searchu
+
+
+
+Pobjednički tim:
+      In text classification tasks there are three general key procedures:
+        1) the extraction of textual features
+        2) the representation of the documents
+        3) the application of a learning algorithm (Machine learning algorithm)
+
+    1) First steps -> specific lexical features (simple words, function words)
+                   -> syntactical features      (Part of speech tags)
+
+    2) Representation of document -> most common-effective approaches for AP consist in using Bag of Words formulation (histogram of the presence / absence of textual features)
+
+    3) Learning algorithm is in most cases Support Vector Machine (SVM)
+
+
+     ** Implementation **
+
+
+     SOA representation to get -> discrimintaive features
+     LSA representation to get -> descriptive features
+
+     Last part -> joining together [discriminative + decriptive features]
+
+
+
+     ------> Zaključak bespotrebno puno posla za vrlo male pomake -> nebitno SOA i LSA ništa posebno
+
+     Ali njihovi rezultati na evaluaciji za English set:
+
+    Gender:  78.28 %
+
+       Age: 79.60 %
+
+     Big 5:                 ovo su samo brojevi da prikažu poboljšanje, postotak ne piše !
+      Extroverted 64 87
+           Stable 56 85
+        Agreeable 60 80
+    Conscientious 61 78
+             Open 65 86
+
+
+
+
+3. tim (GRCI):
+      Structural features (na raw tweetovima)                       ---> count @, count #, count URLs, count mentions
+      Stylometry features (na cleaned tweetovima bez @,url,hastags) ---> tdifd trigrams, word lenght, bag of smileys, number of uppercase
+
+      Nakon procesiranja spajanje svega u jedan vektor -> normaliziranje i skaliranje an vrijednosti izmeuđu [-1,1] sa mean = 0 i jediničnom varijancom
+
+      age             -> SVM SVC (rbf kernel)
+      gender          -> SVM SVC (linear kernel)    ~ 83 % [navodno zbog trigrams dobro hvataju informaciju o spolu]
+      personal traits -> SVM SVR (linear kernel)    ~ 73 % []
+
+    GRCI odličan gender classification -> kopirati i isprobati s dodatnim našim featurima
+    - tfidf trigrams nakon čišćenja tweetova
+    - structural -> ništa !!!!!
+    - SVM SVC (linear kernel)
+    - normalizacija i skaliranje featurea [-1,1, mean=0, unit variance]
+
+
+4. tim (Švicarci):
+
+  traits ~ 15 - 20 %
+
+
+
+
+
+
+
+Guide how to get acceptable results using SVM:
+
+    Scaling before applying SVM is very important. The main advantage of scaling is to avoid attributes in greater numeric ranges dominating those in
+    smaller numeric ranges. Another advantage is to avoid numerical difficulties during the calculation. Because kernel values usually depend on the
+    inner products of feature vectors, e.g. the linear kernel and the polynomial kernel, large attribute values might cause numerical problems. We
+    recommend linearly scaling each attribute to the range [−1, +1] or [0, 1].
+
+    Model Selection -> Though there are only four common kernels mentioned in Section 1, we must decide which one to try first. Then the penalty
+    parameter C and kernel parameters are chosen.
+
+    RBF kernel is first default choice. It is not suitable wheen the number of features is very large, linear kernel is then better. There are two parameters
+    for an RBF kernel: C and gamma. It is not known beforehand which C and γ are best for a given problem; consequently some kind of model selection
+    (parameter search) must be done. The goal is to identify good (C, γ) so that the classifier can accurately predict unknown data (i.e. testing data).
+
+    Separating data into training data 70% and test data 30%. On training data we perform grid search for best parameters C and gamma using 10-fold cross validation.
+    After big grid search C - [2^-5, 2^-3, ..., 2^15], gamma [2^-15, 2^-13, ..., 2^3] we estimate C and gamma for highest crossvalidation score. Then we perform finer
+    grid search using neighbours. Lets assuume best C = 2^3, gamme = 2^-5. Finner grid search goes then C - [2^1, ...., 2^5], gamma - [2^-7, ...., 2^-3]. After best (C,gamma)
+    is found, the whole training set is trained againt to generate final classifier.
+
+    Note ----> Ako se featuri skaliraju na [0,1] ili [-1, 1] na training setu onda se moraju i podaci skalirati na istu skalu i na test setu !!
+
+
+
+
+% -----------------------------------------------
+Pisanje rada
+% -----------------------------------------------
+
+% -----------------------------------------------
+Abstract:
+  In this paper we present approach for the task of author profiling. // nešto o featurima
+  We address gender and age prediction as classification task and personality prediction as regresssion problem. Classification tasks we tackle using Support Vector Machine,
+  Logistic Regression and RandomForestClassifier. On the other hand regression tasks we model with Support Vector Machine Regression and xxx. As training data is created by joining each user's tweets in one document to process and extract features.
+% -----------------------------------------------
+
+% -----------------------------------------------
+Introduction:
+
+  uvod mali mođda pitanja
+
+  What are features that can best discriminate between different age groups or between genders ? Is it possible to detect someone's personal traits based on tweets ?
+  There are some interesting problems from blogs, social networks and (reddit) npr. such as detecting plagiarism, recognizing stolen identities, author profiling and more. Therefore we focusing on one problem to propose
+  effective algorithm for author profiling.
+  ...
+  This paper is organized as follows. The next sections presents general approach and metedology used in the experiments. The third section ......
+  Finally section 4. shows our conclusion and future work.
+
+% -----------------------------------------------
+
+% -----------------------------------------------
+Approach:
+
+    The idea was to create an easily extensible and parameterizable framework for testing many different feature and preprocessing combinations. We mainly focused on
+    determing good combinations of features separetly for age and gender classifications. As for personal traits same combination of new features are used for every personal trait.
+
+    Pipeline of our system is developed as three step process. In first process we prepare data for extracting features. We create a document for each user by joining all his tweets from the dataset.
+    This document is then preprocessed to remove all HTML tags found in document, removing urls and mentions from document. // ubaciti da istovremeno brojimo neke feature
+
+    Second step ....
+    We then extract .....  After we concatenate these features and normalize them since numeric values differ a lot. // još rečenica
+
+    In the last step we feed extracted features to train models for classification and regression. // možda spomenuti SVM i modele sada ??
+
+% -----------------------------------------------
+
+% -----------------------------------------------
+Features:
+
+tekst
+
+% -----------------------------------------------
+
+% -----------------------------------------------
+Preprocessing:
+
+tekst
+
+% -----------------------------------------------
+
+% -----------------------------------------------
+Classifiers
+
+
+
+
+% -----------------------------------------------
+
+Future work:

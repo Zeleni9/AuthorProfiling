@@ -2,7 +2,7 @@ import os
 import numpy as np
 from sklearn.linear_model import LogisticRegression as LogReg
 from sklearn.naive_bayes import GaussianNB
-from sklearn import svm
+from sklearn import svm, grid_search
 import re
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
@@ -15,10 +15,10 @@ from ageFeatureExtraction import AgeFeatureExtraction
 from genderFeatureExtraction import GenderFeatureExtraction
 from sklearn.linear_model import RandomizedLasso
 
-STOP_WORDS_PATH='C:\Users\User\Documents\Minesweepers_AuthorProfiling\AuthorProfiling\stopwords.txt'
-SWAG_WORDS_PATH='C:\Users\User\Documents\Minesweepers_AuthorProfiling\AuthorProfiling\swag_words.txt'
-FREQUENT_MALE_WORDS_PATH="C:/Users/User/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/frequent_male_words.txt"
-FREQUENT_FEMALE_WORDS_PATH='C:/Users/User/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/frequent_female_words.txt'
+STOP_WORDS_PATH='/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/stopwords.txt'
+SWAG_WORDS_PATH='/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/swag_words.txt'
+FREQUENT_MALE_WORDS_PATH="/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/frequent_male_words.txt"
+FREQUENT_FEMALE_WORDS_PATH='/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/frequent_female_words.txt'
 
 def main():
 
@@ -40,6 +40,8 @@ def main():
     score_svr = 0
     score_linearSVC = 0
     score_linearSVR = 0
+
+    #parameters = {'kernel':['rbf'], 'C':[2**(-5), 2**(-3), 2**(-1), 2**(1), 2**(3), 2**(5), 2**(7), 2**(9)], 'gamma':[2**(-9), 2**(-7), 2**(-5), 2**(-3), 2**(-1), 2**(1), 2**(3)] }
     for i in xrange(0, iterations):
         train_x, train_y, test_x, test_y = features.get_train_test_data()
 
@@ -52,10 +54,8 @@ def main():
         ranfor_clf = RandomForestClassifier()
         ranfor_clf.fit(train_x, train_y)
 
-
-
-        svm_linearSVC = svm.LinearSVC()
-        svm_linearSVC.fit(train_x, train_y)
+       # grid_search_SVC = grid_search.GridSearchCV(svm_clf, parameters)
+       # grid_search_SVC.fit(train_x, train_y)
 
         predicted_y_log_reg = log_reg.predict(test_x)
         score_log_reg += accuracy_score(test_y, predicted_y_log_reg)
