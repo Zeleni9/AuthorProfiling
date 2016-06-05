@@ -12,7 +12,7 @@ from nltk.stem.porter import PorterStemmer
 from nltk.corpus import words as nltk_corpus
 
 from sklearn.utils import shuffle
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, Normalizer
 
 class FeatureExtraction(object):
 
@@ -223,7 +223,7 @@ class FeatureExtraction(object):
     def prepare_data(self, data, feature_number):
 
         shuffled_data = defaultdict(list)
-        keys = shuffle(list(data.keys()))
+        keys = shuffle(list(data.keys()), random_state=42)
         for key in keys:
             shuffled_data[key] = data[key]
 
@@ -235,10 +235,9 @@ class FeatureExtraction(object):
         for i, value in enumerate(shuffled_data.itervalues()):
             data_x[i] = value[0]
             data_y[i] = value[1]
+
         scaler = StandardScaler().fit(data_x)
-        data_x_std = scaler.transform(data_x)
-        #np.set_printoptions(formatter={'float': '{: 0.5f}'.format})
-        #print data_x_std
-        return data_x_std[0:train_num], data_y[0:train_num], data_x_std[train_num:], data_y[train_num:]
+        data_x_scaled = scaler.transform(data_x)
+        return data_x_scaled[0:train_num], data_y[0:train_num], data_x_scaled[train_num:], data_y[train_num:]
 
 
