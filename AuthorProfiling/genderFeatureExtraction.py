@@ -45,20 +45,20 @@ class GenderFeatureExtraction(FeatureExtraction):
         for key, value in self.sorted_users.iteritems():
 
             text, url_count = self.process_links(value)
-            self.structural_features[key].append(url_count)
+            #self.structural_features[key].append(url_count)
 
             text, mention_count = self.process_mentions(text)
-            self.structural_features[key].append(mention_count)
+            #self.structural_features[key].append(mention_count)
 
             text, hastag_count = self.process_hashtags(text)
             #self.structural_features[key].append(hastag_count)
 
             # counts most frequent male function words
             frequent_male_function_words_count = self.count_feature_from_file(value, ['the', 'this', 'that','as','one'])#'the', 'this', 'that','as','one'
-            self.structural_features[key].append(frequent_male_function_words_count)
+            #self.structural_features[key].append(frequent_male_function_words_count)
 
             # counts most frequent female function words
-            frequent_female_function_words_count = self.count_feature_from_file(value, ['for', 'with', 'she','not','and','in'])#'for', 'with', 'she','not','and','in'
+            frequent_female_function_words_count = self.count_feature_from_file(value, ['she','not'])#'for', 'with', 'she','not','and','in'
             self.structural_features[key].append(frequent_female_function_words_count)
 
             # counts words that are most likely to be used by men
@@ -67,7 +67,7 @@ class GenderFeatureExtraction(FeatureExtraction):
 
             # counts words that are most likely to be used by women
             frequent_female_words_count = self.count_feature_from_file(value, self.frequent_female_words)
-            #self.structural_features[key].append(frequent_female_words_count)
+            self.structural_features[key].append(frequent_female_words_count)
 
             # character overload count
             char_count = self.char_count(''.join(value))
@@ -76,7 +76,7 @@ class GenderFeatureExtraction(FeatureExtraction):
 
             # !!+ count
             exclamation_count = self.exclamation_overload_count(value)
-            #self.structural_features[key].append(exclamation_count / char_count)
+            self.structural_features[key].append(exclamation_count / char_count)
 
             stopwords_count = self.count_stopwords(text)
             #self.structural_features[key].append(stopwords_count)
@@ -85,10 +85,10 @@ class GenderFeatureExtraction(FeatureExtraction):
             F_score=self.calculate_F_Score(pos_tags)
             self.structural_features[key].append(F_score)
 
-            # for trigram in self.tokens_trigrams('||'.join(text)):
-            #     trigram_count[trigram] = trigram_count.get(trigram, 0) + 1
-            # for unigram in self.tokens_unigrams('||'.join(text)):
-            #     unigram_count[unigram] = unigram_count.get(unigram, 0) + 1
+            for trigram in self.tokens_trigrams('||'.join(text)):
+                trigram_count[trigram] = trigram_count.get(trigram, 0) + 1
+            for unigram in self.tokens_unigrams('||'.join(text)):
+                 unigram_count[unigram] = unigram_count.get(unigram, 0) + 1
 
             docs.append('||'.join(text))
 
@@ -99,7 +99,7 @@ class GenderFeatureExtraction(FeatureExtraction):
         #     if (count > 0):
         #         frequent_trigrams += 1
         # print frequent_trigrams
-
+        #
         # frequent_unigrams = 0
         # for unigram, count in unigram_count.iteritems():
         #     if (count > 10):

@@ -230,7 +230,6 @@ class FeatureExtraction(object):
         for key in keys:
             shuffled_data[key] = data[key]
 
-
         len_data = len(data.keys())
         train_num = int( len_data * self.train_coeff)
         data_x = np.zeros(shape=(len_data, feature_number))
