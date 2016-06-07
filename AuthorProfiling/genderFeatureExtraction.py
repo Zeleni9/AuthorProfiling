@@ -71,14 +71,13 @@ class GenderFeatureExtraction(FeatureExtraction):
             self.structural_features[key].append(frequent_female_words_count)
 
             # character overload count
-            char_count = self.char_count(''.join(text))
-            char_overload_count = self.char_overload_count(''.join(text))
-            #self.structural_features[key].append(char_overload_count)
-
+            char_count = self.char_count(''.join(value))
+            char_overload_count = self.char_overload_count(''.join(value))
+            #self.structural_features[key].append(char_overload_count / char_count)
 
             # !!+ count
             exclamation_count = self.exclamation_overload_count(value)
-            self.structural_features[key].append(exclamation_count)
+            self.structural_features[key].append(exclamation_count / char_count)
 
             stopwords_count = self.count_stopwords(text)
             #self.structural_features[key].append(stopwords_count)
@@ -95,7 +94,6 @@ class GenderFeatureExtraction(FeatureExtraction):
             # for unigram in self.tokens_unigrams('||'.join(text)):
             #     unigram_count[unigram] = unigram_count.get(unigram, 0) + 1
 
-
             docs.append('||'.join(text))
 
 
@@ -105,7 +103,7 @@ class GenderFeatureExtraction(FeatureExtraction):
         #     if (count > 0):
         #         frequent_trigrams += 1
         # print frequent_trigrams
-
+        #
         # frequent_unigrams = 0
         # for unigram, count in unigram_count.iteritems():
         #     if (count > 10):
