@@ -2,6 +2,8 @@ import os
 import numpy as np
 from sklearn.metrics import accuracy_score
 from preprocessing import Preprocess
+from sklearn.linear_model import LogisticRegression as LogReg
+from sklearn.ensemble import RandomForestClassifier
 from sklearn import svm
 from sklearn.feature_selection import RFE
 from sklearn.ensemble import ExtraTreesClassifier
@@ -12,6 +14,7 @@ from sklearn.cross_validation import StratifiedKFold
 from sklearn.linear_model import LogisticRegression
 import time
 import nltk
+import re
 
 PATH_TO_PROJECT_DIRECTORY='C:/Users/borna/Desktop/TAR/Minesweepers_AuthorProfiling/AuthorProfiling/'
 STOP_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'stopwords.txt'
@@ -23,74 +26,52 @@ def main():
 
     start_time=time.time()
     path = os.getcwd()
-    #print path
-    nltk.download('punkt')
-    nltk.download('averaged_perceptron_tagger')
+    # print path
+    # nltk.download('punkt')
+    # nltk.download('averaged_perceptron_tagger')
+
     pre_process = Preprocess(path)
     pre_process.load_data()
     pre_process.truth_data()
     users, truth_users = pre_process.get_data()
 
-    #features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
-    features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
+    features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
+    #features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
     features.extract_features()
-    train_x, train_y, test_x, test_y = features.get_train_test_data()
+
+    iterations = 100
+    score_log_reg = 0
+    score_svm = 0
+    score_svm_linear = 0
+    for i in xrange(0, iterations):
+        train_x, train_y, test_x, test_y = features.get_train_test_data()
+
+        log_reg = LogReg()
+        log_reg.fit(train_x, train_y)
+
+        svm_clf = svm.SVC()
+        svm_clf.fit(train_x, train_y)
+
+        svm_linear = svm.SVC(kernel='linear')
+        svm_linear.fit(train_x, train_y)
 
 
-    # Model selection SVM [hiperparameter optimization]
-    print "Support Vector Machine model: "
-    C_range = np.logspace(-2, 10, 13)
-    gamma_range = np.logspace(-9, 3, 13)
-    kernel_list = ['linear', 'rbf']
-    param_grid_SVC = dict(kernel=kernel_list, C=C_range, gamma=gamma_range)
-    validation = StratifiedKFold(train_y, n_folds=10)
-    grid_svm = GridSearchCV(svm.SVC(), param_grid_SVC, cv=validation)
-    grid_svm.fit(train_x, train_y)
+        predicted_y_log_reg = log_reg.predict(test_x)
+        score_log_reg += accuracy_score(test_y, predicted_y_log_reg)
 
-    print ""
-    print "Best parameters for svm.SVC(): ", grid_svm.best_params_
+        predicted_y_svm = svm_clf.predict(test_x)
+        score_svm += accuracy_score(test_y, predicted_y_svm)
 
+        predicted_y_svm_linear = svm_linear.predict(test_x)
+        score_svm_linear += accuracy_score(test_y, predicted_y_svm_linear)
 
-    # Evaluation on test set with found best hiperparameters of SVM model
-    predict_y_grid = grid_svm.predict(test_x)
-    score_grid_svm = accuracy_score(test_y, predict_y_grid)
+    score_log_reg_avg = score_log_reg / iterations
+    score_svm_avg = score_svm / iterations
+    score_svm_linear_avg = score_svm_linear / iterations
 
-    # Evaluation on test set with best hiperparameters earlier estimated to perform best
-    svm_clf = svm.SVC(kernel='linear', C=0.01, gamma=(1**(-9)))
-    svm_clf.fit(train_x, train_y)
-    predict_y_svm = svm_clf.predict(test_x)
-    score_svm = accuracy_score(test_y, predict_y_svm)
-
-    # Output of scores
-    print "Evalutation on test set using Grid search optimized model SVM:                   ", score_grid_svm
-    print "Evalutation on test set using best hiperparameters found eralier:                ", score_svm
-    print ""
-
-
-    # Model selection Logistic Regression [hiperparameter optimization]
-    print "Logistic Regression model: "
-    param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000] }
-    grid_log = GridSearchCV(LogisticRegression(penalty='l2'), param_grid)
-    grid_log.fit(train_x, train_y)
-
-    print "Best params for logistic regression: ", grid_log.best_params_
-
-    # Evaluation on test set with found best hiperparameters of LogisticRegression model
-    predict_y_log_grid = grid_log.predict(test_x)
-    score_grid_log = accuracy_score(test_y, predict_y_log_grid)
-
-    # Evaluation on test set with best hiperparameters earlier estimated to perform best
-    log_reg_clf = LogisticRegression()
-    log_reg_clf.fit(train_x,train_y)
-
-    predict_y_log = log_reg_clf.predict(test_x)
-    score_log = accuracy_score(test_y, predict_y_log)
-
-
-    # Output of scores
-    print "Evalutation on test set using Grid search optimized model LogisticRegression:    ", score_grid_log
-    print "Evalutation on test set using default LogisticRegression:                        ", score_log
-    print ""
+    print " Score Log Reg : ", score_log_reg_avg
+    print " SVM with RBF kernel Score : ", score_svm_avg
+    print " SVM with linear kernel Score : ", score_svm_linear_avg
 
 
     # #feature selection tool - doesn't work for SVM.svc

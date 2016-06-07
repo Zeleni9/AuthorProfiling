@@ -58,23 +58,16 @@ class FeatureExtraction(object):
     # can be used for multiple features, such as: count swag, count frequent male words...
     def count_feature_from_file(self, tweets, word_list):
         count = 0
-
         for tweet in tweets:
             for word in tweet.split(' '):
                 word = re.sub(r"[^A-Za-z']", "", word)
-                if word in word_list:
+                if word.lower() in word_list:
                     count += 1
-
         return count
 
     # return count of uppercase words in all tweets
     def uppercase_words_count(self, input):
-        count = 0
-        for tweet in input:
-            for word in tweet.split(' '):
-                if len(word) > 0 and word[0].isupper():
-                    count += 1
-        return count
+        return len(re.findall(r'\b[A-Z]{2,}\b', ' '.join(input)))/len(input)
 
     def word_count(self, input):
         count = 0
@@ -91,39 +84,23 @@ class FeatureExtraction(object):
 
 
     def three_dot_count(self,input):
-        count=0;
-        for tweet in input:
-            count+=tweet.count('...')
-        return count
+        return len(re.findall('\.\.\.+',' '.join(input)))
 
 
     def exclamation_overload_count(self, input):
-        count = 0;
-        for tweet in input:
-            count += len(re.findall('!!+',tweet))
-        return count
+        return len(re.findall('!!+',' '.join(input)))
 
 
     def punctuation_count(self, input):
-        count = 0;
-        for tweet in input:
-            count += len(re.findall('[?.!]', tweet))
-        return count
+        return len(re.findall('[?.!]',' '.join(input)))
 
 
     def emoticon_count(self,input):
-        count = 0;
-        for tweet in input:
-            count += len(re.findall('[:;][/)\'P*D(]', tweet))
-            count += len(re.findall('<3',tweet))
-        return count
+        return len(re.findall('[:;<][3/)\'P*D(]', ' '.join(input)))
 
 
     def quotation_count(self, input):
-        count = 0;
-        for tweet in input:
-            count += len(re.findall('"', tweet))
-        return count
+        return len(re.findall('"', ' '.join(input)))
 
 
     # returns count of character appearance after they repeat three or more time in a row in some string
@@ -148,9 +125,6 @@ class FeatureExtraction(object):
             for word in tweet.split(' '):
                 word_lengths.append(len(word))
         return float(sum(word_lengths)) / len(word_lengths)
-
-
-
 
 
     # append features for every user from ngram TF-IDF matrix
@@ -226,7 +200,7 @@ class FeatureExtraction(object):
     def prepare_data(self, data, feature_number):
 
         shuffled_data = defaultdict(list)
-        keys = shuffle(list(data.keys()), random_state=42)
+        keys = shuffle(list(data.keys()))
         for key in keys:
             shuffled_data[key] = data[key]
 

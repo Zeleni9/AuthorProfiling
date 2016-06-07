@@ -45,36 +45,36 @@ class GenderFeatureExtraction(FeatureExtraction):
         for key, value in self.sorted_users.iteritems():
 
             text, url_count = self.process_links(value)
-            self.structural_features[key].append(url_count)
+            #self.structural_features[key].append(url_count)
 
             text, mention_count = self.process_mentions(text)
-            self.structural_features[key].append(mention_count)
+            #self.structural_features[key].append(mention_count)
 
-            text, hastag_count = self.process_hashtags(text)
-            #self.structural_features[key].append(hastag_count)
-
+            text, hashtag_count = self.process_hashtags(text)
+            #self.structural_features[key].append(hashtag_count)
 
 
             # counts most frequent male function words
-            frequent_male_function_words_count = self.count_feature_from_file(value, ['the', 'this', 'that','as','one'])#'the', 'this', 'that','as','one'
-            self.structural_features[key].append(frequent_male_function_words_count)
+            frequent_male_function_words_count = self.count_feature_from_file(text, ['the', 'this', 'that'])#'the', 'this', 'that','as','one'
+            #self.structural_features[key].append(frequent_male_function_words_count)
 
             # counts most frequent female function words
-            frequent_female_function_words_count = self.count_feature_from_file(value, ['for', 'with', 'she','not','and','in'])#'for', 'with', 'she','not','and','in'
+            frequent_female_function_words_count = self.count_feature_from_file(text, ['not','she'])#'for', 'with', 'she','not','and','in'
             self.structural_features[key].append(frequent_female_function_words_count)
 
             # counts words that are most likely to be used by men
-            frequent_male_words_count = self.count_feature_from_file(value, self.frequent_male_words)
-            self.structural_features[key].append(frequent_male_words_count)
+            frequent_male_words_count = self.count_feature_from_file(text, self.frequent_male_words)
+            #self.structural_features[key].append(frequent_male_words_count)
 
             # counts words that are most likely to be used by women
-            frequent_female_words_count = self.count_feature_from_file(value, self.frequent_female_words)
+            frequent_female_words_count = self.count_feature_from_file(text, self.frequent_female_words)
             self.structural_features[key].append(frequent_female_words_count)
 
             # character overload count
-            char_count = self.char_count(''.join(value))
-            char_overload_count = self.char_overload_count(''.join(value))
-            self.structural_features[key].append(char_overload_count / char_count)
+            char_count = self.char_count(''.join(text))
+            char_overload_count = self.char_overload_count(''.join(text))
+            #self.structural_features[key].append(char_overload_count)
+
 
             # !!+ count
             exclamation_count = self.exclamation_overload_count(value)
@@ -83,14 +83,18 @@ class GenderFeatureExtraction(FeatureExtraction):
             stopwords_count = self.count_stopwords(text)
             #self.structural_features[key].append(stopwords_count)
 
-            pos_tags=self.get_pos_tags_for_user(text)
+            pos_tags=self.get_pos_tags(text)
             F_score=self.calculate_F_Score(pos_tags)
             self.structural_features[key].append(F_score)
+
+            gender_preferential_features=self.get_gender_preferential_features(' '.join(text).lower())
+            #self.structural_features[key].extend(gender_preferential_features)
 
             # for trigram in self.tokens_trigrams('||'.join(text)):
             #     trigram_count[trigram] = trigram_count.get(trigram, 0) + 1
             # for unigram in self.tokens_unigrams('||'.join(text)):
             #     unigram_count[unigram] = unigram_count.get(unigram, 0) + 1
+
 
             docs.append('||'.join(text))
 
@@ -108,8 +112,8 @@ class GenderFeatureExtraction(FeatureExtraction):
         #         frequent_unigrams += 1
         # print frequent_unigrams;
 
-        #self.structural_features = self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs, 450), self.structural_features)
-        #self.structural_features = self.append_ngram_tfidf_features(self.get_unigrams_tf_idf(docs, 1000), self.structural_features)
+        # self.structural_features = self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs, 450), self.structural_features)
+        # self.structural_features = self.append_ngram_tfidf_features(self.get_unigrams_tf_idf(docs, 1000), self.structural_features)
 
         self.data = self.join_users_truth(self.structural_features, self.transform_gender, self.type)
         self.feature_number = len(self.structural_features.values()[0])
@@ -119,7 +123,7 @@ class GenderFeatureExtraction(FeatureExtraction):
 
 
     #returns pos tags of all tweets for one user in nested list format - [[pos_tags_first_tweet],[pos_tags_second_tweet], ... ,[pos_tags_last_tweet]]
-    def get_pos_tags_for_user(self,input):
+    def get_pos_tags(self,input):
         tweet_tokenizer = TweetTokenizer()
         sentences = [tweet_tokenizer.tokenize(re.sub(r'["]', '', tweet)) for tweet in input]
         return self.perceptron_tagger.tag_sents(sentences)
@@ -133,7 +137,21 @@ class GenderFeatureExtraction(FeatureExtraction):
                           counts['MD'] + counts['RB'] + counts['WR'] + counts['UH']) + 100)
         return F_score
 
-    #def get_gender_preferential_features_for_user
+
+
+
+    def get_gender_preferential_features(self,input):
+        gender_preferential_features=[]
+        #gender_preferential_features.append(len(re.findall(r'\b(\w*able)\b',input)))
+        #gender_preferential_features.append(len(re.findall(r'\b(\w*al)\b',input)))
+        #gender_preferential_features.append(len(re.findall(r'\b(\w*ful)\b', input)))
+        #gender_preferential_features.append(len(re.findall(r'\b(\w*ible)\b', input)))
+        #gender_preferential_features.append(len(re.findall(r'\b(\w*ic)\b', input)))
+        #gender_preferential_features.append(len(re.findall(r'\b(\w*ive)\b', input)))
+        #gender_preferential_features.append(len(re.findall(r'\b(\w*less)\b', input)))
+        #gender_preferential_features.append(len(re.findall(r'\b(\w*ly)\b', input)))
+        gender_preferential_features.append(len(re.findall(r'\b(\w*ous)\b', input)))
+        return gender_preferential_features
 
     def transform_gender(self, gender):
         if (gender == "M"):

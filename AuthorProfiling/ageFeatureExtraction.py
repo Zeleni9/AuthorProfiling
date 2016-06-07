@@ -31,18 +31,18 @@ class AgeFeatureExtraction(FeatureExtraction):
 
         for key, value in self.sorted_users.iteritems():
 
-            # uppercase words count
-            uppercase_words_count = self.uppercase_words_count(value)
-            self.structural_features[key].append(uppercase_words_count)
-
             text, url_count = self.process_links(value)
             self.structural_features[key].append(url_count)
 
             text, mention_count = self.process_mentions(text)
             #self.structural_features[key].append(mention_count)
 
-            text, hastag_count = self.process_hashtags(text)
-            self.structural_features[key].append(hastag_count)
+            text, hashtag_count = self.process_hashtags(text)
+            #self.structural_features[key].append(hashtag_count)
+
+            # uppercase words count
+            uppercase_words_count = self.uppercase_words_count(value)
+            self.structural_features[key].append(uppercase_words_count)
 
             stopwords_count = self.count_stopwords(text)
             #self.structural_features[key].append(stopwords_count)
@@ -61,11 +61,11 @@ class AgeFeatureExtraction(FeatureExtraction):
             self.structural_features[key].append(word_length_avg)
 
             # swag count
-            swag_count = self.count_feature_from_file(value, self.swag_words)
+            swag_count = self.count_feature_from_file(text, self.swag_words)
             #self.structural_features[key].append(swag_count)
 
-            # ... count
-            three_dot_count=self.three_dot_count(value)
+            # ...+ count
+            three_dot_count=self.three_dot_count(text)
             self.structural_features[key].append(three_dot_count)
 
             # !!+ count
@@ -93,7 +93,6 @@ class AgeFeatureExtraction(FeatureExtraction):
         for trigram, count in trigram_count.iteritems():
             if (count > 2):
                 frequent_trigrams += 1
-        print frequent_trigrams
 
         self.structural_features = self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs, frequent_trigrams), self.structural_features)
         #self.structural_features = self.append_ngram_tfidf_features(self.get_unigrams_tf_idf(docs, 1000), self.structural_features)
