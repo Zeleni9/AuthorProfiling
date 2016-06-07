@@ -24,14 +24,14 @@ from ageFeatureExtraction import AgeFeatureExtraction
 from genderFeatureExtraction import GenderFeatureExtraction
 from extrovertedFeatureExtraction import ExtrovertedFeatureExtraction
 
-PATH_TO_PROJECT_DIRECTORY='C:/Users/borna/Desktop/TAR/Minesweepers_AuthorProfiling/AuthorProfiling'
+PATH_TO_PROJECT_DIRECTORY='C:/Users/borna/Desktop/TAR/Minesweepers_AuthorProfiling/AuthorProfiling/'
 STOP_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'stopwords.txt'
 SWAG_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'swag_words.txt'
 FREQUENT_MALE_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'frequent_male_words.txt'
 FREQUENT_FEMALE_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'frequent_female_words.txt'
 
 def main():
-
+    start_time=time.time()
     path = os.getcwd()
     # nltk.download('punkt')
     # nltk.download('averaged_perceptron_tagger')
@@ -42,22 +42,28 @@ def main():
 
     #features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
     #features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
-    features = ExtrovertedFeatureExtraction(users, truth_users, STOP_WORDS_PATH)
+    features = ExtrovertedFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
     features.extract_features()
 
     iterations = 100
     score_svr_mean = 0
+    score_svr_default_mean=0
     score_ridge_mean = 0
-    for iter in xrange(0, iterations):
+    for itera in xrange(0, iterations):
         train_x, train_y, test_x, test_y = features.get_train_test_data()
 
         parameters = {'kernel':('linear', 'rbf'), 'C':[1, 10]}
         svr_clf = GridSearchCV(svm.SVR(), parameters)
         svr_clf.fit(train_x, train_y)
 
-        predict = svr_clf.predict(test_x)
-        score = mean_squared_error(test_y, predict)
+        predict_svr_optimized = svr_clf.predict(test_x)
+        score_svr_optimized = mean_squared_error(test_y, predict_svr_optimized)
 
+        svr_default_clf =svm.SVR()
+        svr_default_clf.fit(train_x, train_y)
+
+        predict_svr_default = svr_default_clf.predict(test_x)
+        score_svr_default = mean_squared_error(test_y, predict_svr_default)
 
         ridge_clf = Ridge()
         ridge_clf.fit(train_x, train_y)
@@ -65,15 +71,15 @@ def main():
         predict_ridge = ridge_clf.predict(test_x)
         score_ridge = mean_squared_error(test_y, predict_ridge)
 
-        score_ridge_mean += score_ridge
-        score_svr_mean += score
 
-        print "Mean squared error SVM  : ", score
-        print "Mean squared error Ridge: ", score_ridge
+        score_svr_mean += math.sqrt(score_svr_optimized)
+        score_svr_default_mean+=math.sqrt(score_svr_default)
+        score_ridge_mean += math.sqrt(score_ridge)
 
 
-    print "Error SVM                  ", math.sqrt(score_svr_mean/iterations)
-    print "Ridge:                     ", math.sqrt(score_ridge_mean/iterations)
+    print "Error Optimized SVM                  ", score_svr_mean/iterations
+    print "Error Default SVM                  ", score_svr_default_mean / iterations
+    print "Error Ridge:                     ", score_ridge_mean/iterations
 
 
     # iterations = 100
@@ -120,6 +126,10 @@ def main():
     # model.fit(train_x, train_y)
     # # display the relative importance of each attribute
     # print(model.feature_importances_)
+
+    print ("")
+    run_time=time.time()- start_time
+    print ("Run Time : " + str(run_time))
 
 
 # Starting point of program

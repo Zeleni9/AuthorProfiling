@@ -50,7 +50,7 @@ class FeatureExtraction(object):
         count = 0
         for tweet in input:
             for word in tweet.split(' '):
-                if word.strip() in self.stopwords:
+                if word.lower().strip() in self.stopwords:
                     count = count + 1
         return count/len(input)
 

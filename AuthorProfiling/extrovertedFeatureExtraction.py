@@ -1,14 +1,31 @@
 from __future__ import division
 from collections import defaultdict
+from nltk.tokenize import TweetTokenizer
+from nltk.tag import PerceptronTagger
+from collections import Counter
+from nltk.data import find
+import re
 
 from featureExtraction import FeatureExtraction
 
+PICKLE = "averaged_perceptron_tagger.pickle"
+AP_MODEL_LOC = 'file:'+str(find('taggers/averaged_perceptron_tagger/'+PICKLE))
+
 class ExtrovertedFeatureExtraction(FeatureExtraction):
 
-    def __init__(self, users, truth_users, stopwords_file):
+    def __init__(self, users, truth_users, stopwords_file, swagwords_file):
         self.structural_features = defaultdict(list)
         self.type = 2
         self.data = defaultdict(list)
+        self.swag_words = []
+        self.perceptron_tagger = PerceptronTagger(load=False)
+        self.perceptron_tagger.load(AP_MODEL_LOC)
+
+        with open(swagwords_file) as f:
+            data = f.readlines()
+            for line in data:
+                self.swag_words.append(line.strip())
+
         super(ExtrovertedFeatureExtraction, self).__init__(users, truth_users, stopwords_file)
 
 
@@ -18,18 +35,18 @@ class ExtrovertedFeatureExtraction(FeatureExtraction):
 
         for key, value in self.sorted_users.iteritems():
 
-            # uppercase words count
-            uppercase_words_count = self.uppercase_words_count(value)
-            self.structural_features[key].append(uppercase_words_count)
-
             text, url_count = self.process_links(value)
-            self.structural_features[key].append(url_count)
+            #self.structural_features[key].append(url_count)
 
             text, mention_count = self.process_mentions(text)
             #self.structural_features[key].append(mention_count)
 
-            text, hastag_count = self.process_hashtags(text)
-            #self.structural_features[key].append(hastag_count)
+            text, hashtag_count = self.process_hashtags(text)
+            self.structural_features[key].append(hashtag_count)
+
+            # uppercase words count
+            uppercase_words_count = self.uppercase_words_count(text)
+            #self.structural_features[key].append(uppercase_words_count)
 
             stopwords_count = self.count_stopwords(text)
             #self.structural_features[key].append(stopwords_count)
@@ -45,7 +62,11 @@ class ExtrovertedFeatureExtraction(FeatureExtraction):
 
             # word length ratio
             word_length_avg = self.word_length_avg(value)
-            self.structural_features[key].append(word_length_avg)
+            #self.structural_features[key].append(word_length_avg)
+
+            # swag count
+            swag_count = self.count_feature_from_file(text, self.swag_words)
+            #self.structural_features[key].append(swag_count)
 
             # ... count
             three_dot_count=self.three_dot_count(value)
@@ -63,22 +84,25 @@ class ExtrovertedFeatureExtraction(FeatureExtraction):
             #self.structural_features[key].append(punctuation_count)
 
             # emoticon count
-            emoticon_count = self.emoticon_count(value)
+            emoticon_count = self.emoticon_count(text)
             #self.structural_features[key].append(emoticon_count)
 
-            for trigram in self.tokens_trigrams('||'.join(text)):
-                trigram_count[trigram] = trigram_count.get(trigram, 0) + 1
+            pos_tags = self.get_pos_tags(text)
+            F_score = self.calculate_F_Score(pos_tags)
+            self.structural_features[key].append(F_score)
+
+            # for trigram in self.tokens_trigrams('||'.join(text)):
+            #     trigram_count[trigram] = trigram_count.get(trigram, 0) + 1
 
             docs.append('||'.join(text))
 
 
-        frequent_trigrams = 0
-        for trigram, count in trigram_count.iteritems():
-            if (count > 2):
-                frequent_trigrams += 1
-        #print frequent_trigrams
+        # frequent_trigrams = 0
+        # for trigram, count in trigram_count.iteritems():
+        #     if (count > 2):
+        #         frequent_trigrams += 1
 
-        self.structural_features = self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs, frequent_trigrams), self.structural_features)
+        #self.structural_features = self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs,500), self.structural_features)
         #self.structural_features = self.append_ngram_tfidf_features(self.get_unigrams_tf_idf(docs, 1000), self.structural_features)
 
         self.data = self.join_users_truth(self.structural_features, self.do_nothing, self.type)
@@ -87,6 +111,20 @@ class ExtrovertedFeatureExtraction(FeatureExtraction):
 
     def get_train_test_data(self):
         return self.prepare_data(self.data, self.feature_number)
+
+        # returns pos tags of all tweets for one user in nested list format - [[pos_tags_first_tweet],[pos_tags_second_tweet], ... ,[pos_tags_last_tweet]]
+    def get_pos_tags(self, input):
+        tweet_tokenizer = TweetTokenizer()
+        sentences = [tweet_tokenizer.tokenize(re.sub(r'["]', '', tweet)) for tweet in input]
+        return self.perceptron_tagger.tag_sents(sentences)
+
+    # calculates F_score based on pos tags for each user
+    def calculate_F_Score(self, tagged):
+        counts = Counter(tag[:2] for tagged_sentence in tagged for word, tag in tagged_sentence)
+        F_score = 0.5 * ((counts['NN'] + counts['JJ'] + counts['IN'] + counts['DT']) -
+                         (counts['PR'] + counts['WP'] + counts['WD'] + counts['VB'] +
+                          counts['MD'] + counts['RB'] + counts['WR'] + counts['UH']) + 100)
+        return F_score
 
 
     def do_nothing(self, args):

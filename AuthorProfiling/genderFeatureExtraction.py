@@ -1,14 +1,11 @@
 from __future__ import division
 from collections import defaultdict
-import nltk
-from sklearn.feature_extraction.text import TfidfVectorizer
 from featureExtraction import FeatureExtraction
 from nltk.tokenize import TweetTokenizer
-from nltk.tag.stanford import StanfordPOSTagger
 from nltk.tag import PerceptronTagger
 from collections import Counter
-from itertools import chain
 from nltk.data import find
+import nltk
 import time
 import re
 
