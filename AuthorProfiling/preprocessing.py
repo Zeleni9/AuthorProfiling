@@ -32,8 +32,12 @@ class Preprocess:
             data = f.readlines()
             for user in data:
                 token = user.split(":::")
-                tmp[token[0]] = [token[1], token[2], token[3]]
+                tmp[token[0]] = [token[1], token[2], token[3], token[4], token[5], token[6], token[7]]
                 # token[3] = extroverted
+                # token[4] = stable
+                # token[5] = agreeable
+                # token[6] = conscientious
+                # token[7] = open
                 # Big five classification labels is in token 3-7
         self.truth_users = tmp
 

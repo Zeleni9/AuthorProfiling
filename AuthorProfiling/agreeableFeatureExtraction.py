@@ -11,11 +11,11 @@ from featureExtraction import FeatureExtraction
 PICKLE = "averaged_perceptron_tagger.pickle"
 AP_MODEL_LOC = 'file:'+str(find('taggers/averaged_perceptron_tagger/'+PICKLE))
 
-class ExtrovertedFeatureExtraction(FeatureExtraction):
+class AgreeableFeatureExtraction(FeatureExtraction):
 
     def __init__(self, users, truth_users, stopwords_file, swagwords_file, positive_words_file, negative_words_file):
         self.structural_features = defaultdict(list)
-        self.type = 2
+        self.type = 4
         self.data = defaultdict(list)
         self.swag_words = []
         self.positive_words = []
@@ -38,7 +38,7 @@ class ExtrovertedFeatureExtraction(FeatureExtraction):
             for line in data:
                 self.negative_words.append(line.strip())
 
-        super(ExtrovertedFeatureExtraction, self).__init__(users, truth_users, stopwords_file)
+        super(AgreeableFeatureExtraction, self).__init__(users, truth_users, stopwords_file)
 
 
     def extract_features(self):

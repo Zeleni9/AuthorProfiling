@@ -23,12 +23,18 @@ import math
 from ageFeatureExtraction import AgeFeatureExtraction
 from genderFeatureExtraction import GenderFeatureExtraction
 from extrovertedFeatureExtraction import ExtrovertedFeatureExtraction
+from stableFeatureExtraction import StableFeatureExtraction
+from agreeableFeatureExtraction import AgreeableFeatureExtraction
+from conscientiousFeatureExtraction import ConscientiousFeatureExtraction
+from openFeatureExtraction import OpenFeatureExtraction
 
-PATH_TO_PROJECT_DIRECTORY='C:/Users/borna/Desktop/TAR/Minesweepers_AuthorProfiling/AuthorProfiling/'
+PATH_TO_PROJECT_DIRECTORY='C:\Users\User\Desktop\APT\Minesweepers_AuthorProfiling\AuthorProfiling\\'
 STOP_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'stopwords.txt'
 SWAG_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'swag_words.txt'
 FREQUENT_MALE_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'frequent_male_words.txt'
 FREQUENT_FEMALE_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'frequent_female_words.txt'
+POSITIVE_WORDS = PATH_TO_PROJECT_DIRECTORY + 'positive_words.txt'
+NEGATIVE_WORDS = PATH_TO_PROJECT_DIRECTORY + 'negative_words.txt'
 
 def main():
     start_time=time.time()
@@ -42,7 +48,11 @@ def main():
 
     #features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
     #features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
-    features = ExtrovertedFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
+    #features = ExtrovertedFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, POSITIVE_WORDS, NEGATIVE_WORDS)
+    #features = StableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, POSITIVE_WORDS, NEGATIVE_WORDS)
+    #features = AgreeableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, POSITIVE_WORDS, NEGATIVE_WORDS)
+    #features = ConscientiousFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, POSITIVE_WORDS, NEGATIVE_WORDS)
+    features = OpenFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, POSITIVE_WORDS, NEGATIVE_WORDS)
     features.extract_features()
 
     iterations = 100

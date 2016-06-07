@@ -61,7 +61,7 @@ class FeatureExtraction(object):
         for tweet in tweets:
             for word in tweet.split(' '):
                 word = re.sub(r"[^A-Za-z']", "", word)
-                if word.lower() in word_list:
+                if str(word.lower()) in word_list: # some problems with comparing unicode to string, so I added this str conversion
                     count += 1
         return count
 
