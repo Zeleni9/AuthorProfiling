@@ -1,0 +1,69 @@
+personality traits - default score za feature hashtag, tweet_length i pos tagovi:
+
+Extrovert:
+
+Error Optimized SVM                   0.161703151777
+Error Default SVM                   0.147571846987
+Error Ridge:                      0.163127226809
+
+dodano pos i neg words:
+
+Error Optimized SVM                   0.170811900058
+Error Default SVM                   0.171229500089
+Error Ridge:                      0.165016496296
+
+Stable:
+
+Error Optimized SVM                   0.217907412653
+Error Default SVM                   0.225170469328
+Error Ridge:                      0.200247638089
+
+dodano pos i neg words:
+
+Error Optimized SVM                   0.21695361459
+Error Default SVM                   0.217016311039
+Error Ridge:                      0.206702992309
+
+dodano negative words count:
+
+Error Optimized SVM                   0.219900061836
+Error Default SVM                   0.219900061836
+Error Ridge:                      0.206414457479
+
+Agreeable:
+
+Error Optimized SVM                   0.147819669387
+Error Default SVM                   0.14458274101
+Error Ridge:                      0.149189239375
+
+count 'yes' feature:
+
+Error Optimized SVM                   0.156744354347
+Error Default SVM                   0.146565599129
+Error Ridge:                      0.15381520744
+
+Conscientious:
+
+Error Optimized SVM                   0.169567924031
+Error Default SVM                   0.169567924031
+Error Ridge:                      0.15009961545
+
++ trust words:
+
+Error Optimized SVM                   0.166929231424
+Error Default SVM                   0.167003808791
+Error Ridge:                      0.148073190617
+
++ joy words:
+
+Error Optimized SVM                   0.15250449098
+Error Default SVM                   0.15250449098
+Error Ridge:                      0.147721591803
+
++ surprise words: lošije
+
+Open:
+
+Error Optimized SVM                   0.151451635685
+Error Default SVM                   0.155996579424
+Error Ridge:                      0.15092859895

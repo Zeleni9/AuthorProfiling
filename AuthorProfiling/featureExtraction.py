@@ -21,14 +21,21 @@ class FeatureExtraction(object):
     def __init__(self, users, truth_users, stopwords_file):
         self.users = users
         self.truth_users = truth_users
-        self.stopwords =  []
-        with open(stopwords_file) as f:
-            data = f.readlines()
-            for line in data:
-                self.stopwords.append(line.strip())
+        self.stopwords =  self.txt_file_to_list(stopwords_file)
         self.train_coeff = 0.7
         self.y_column = 1
         self.sorted_users = collections.OrderedDict(sorted(users.items()))
+
+    # opens .txt file that contains words in each row and returns all words as list
+    def txt_file_to_list(self, txt_file):
+        list = []
+
+        with open(txt_file) as f:
+            data = f.readlines()
+            for line in data:
+                list.append(line.strip())
+
+        return list
 
 
     def process_links(self, input):

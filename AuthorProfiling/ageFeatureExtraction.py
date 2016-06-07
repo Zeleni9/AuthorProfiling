@@ -15,12 +15,7 @@ class AgeFeatureExtraction(FeatureExtraction):
         self.structural_features = defaultdict(list)
         self.type = 1
         self.data = defaultdict(list)
-        self.swag_words = []
-
-        with open(swagwords_file) as f:
-            data = f.readlines()
-            for line in data:
-                self.swag_words.append(line.strip())
+        self.swag_words = self.txt_file_to_list(swagwords_file)
 
         super(AgeFeatureExtraction, self).__init__(users, truth_users, stopwords_file)
 

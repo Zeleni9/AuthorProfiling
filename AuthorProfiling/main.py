@@ -28,13 +28,24 @@ from agreeableFeatureExtraction import AgreeableFeatureExtraction
 from conscientiousFeatureExtraction import ConscientiousFeatureExtraction
 from openFeatureExtraction import OpenFeatureExtraction
 
-PATH_TO_PROJECT_DIRECTORY='C:\Users\User\Desktop\APT\Minesweepers_AuthorProfiling\AuthorProfiling\\'
-STOP_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'stopwords.txt'
-SWAG_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'swag_words.txt'
-FREQUENT_MALE_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'frequent_male_words.txt'
-FREQUENT_FEMALE_WORDS_PATH=PATH_TO_PROJECT_DIRECTORY + 'frequent_female_words.txt'
-POSITIVE_WORDS = PATH_TO_PROJECT_DIRECTORY + 'positive_words.txt'
-NEGATIVE_WORDS = PATH_TO_PROJECT_DIRECTORY + 'negative_words.txt'
+PATH_TO_WORD_FILES= 'C:/Users/User/Desktop/APT/Minesweepers_AuthorProfiling/AuthorProfiling/word_files/'
+STOP_WORDS_PATH= PATH_TO_WORD_FILES + 'stopwords.txt'
+SWAG_WORDS_PATH= PATH_TO_WORD_FILES + 'swag_words.txt'
+FREQUENT_MALE_WORDS_PATH= PATH_TO_WORD_FILES + 'frequent_male_words.txt'
+FREQUENT_FEMALE_WORDS_PATH= PATH_TO_WORD_FILES + 'frequent_female_words.txt'
+
+#for personality traits
+POSITIVE_WORDS = PATH_TO_WORD_FILES + 'positive_words.txt'
+NEGATIVE_WORDS = PATH_TO_WORD_FILES + 'negative_words.txt'
+ANGER_WORDS = PATH_TO_WORD_FILES + 'anger_words.txt'
+ANTICIPATION_WORDS = PATH_TO_WORD_FILES + 'anticipation_words.txt'
+DISGUST_WORDS = PATH_TO_WORD_FILES + 'disgust_words.txt'
+FEAR_WORDS = PATH_TO_WORD_FILES + 'fear_words.txt'
+JOY_WORDS = PATH_TO_WORD_FILES + 'joy_words.txt'
+SADNESS_WORDS = PATH_TO_WORD_FILES + 'sadness_words.txt'
+SURPRISE_WORDS = PATH_TO_WORD_FILES + 'surprise_words.txt'
+TRUST_WORDS = PATH_TO_WORD_FILES + 'trust_words.txt'
+
 
 def main():
     start_time=time.time()
@@ -46,13 +57,18 @@ def main():
     pre_process.truth_data()
     users, truth_users = pre_process.get_data()
 
+    # dictionary of file paths to .txt files containing words with specific emotion
+    emotion_words_files = {'positive_words_file' : POSITIVE_WORDS, 'negative_words_file' : NEGATIVE_WORDS, 'anger_words_file' : ANGER_WORDS, 'anticipation_words_file' : ANTICIPATION_WORDS, 'disgust_words_file' : DISGUST_WORDS,
+                   'fear_words_file' : FEAR_WORDS, 'joy_words_file' : JOY_WORDS, 'sadness_words_file' : SADNESS_WORDS, 'surprise_words_file' : SURPRISE_WORDS, 'trust_words_file' : TRUST_WORDS}
+
+
     #features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
     #features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
-    #features = ExtrovertedFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, POSITIVE_WORDS, NEGATIVE_WORDS)
-    #features = StableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, POSITIVE_WORDS, NEGATIVE_WORDS)
-    #features = AgreeableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, POSITIVE_WORDS, NEGATIVE_WORDS)
-    #features = ConscientiousFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, POSITIVE_WORDS, NEGATIVE_WORDS)
-    features = OpenFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, POSITIVE_WORDS, NEGATIVE_WORDS)
+    #features = ExtrovertedFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    #features = StableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    #features = AgreeableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    features = ConscientiousFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    #features = OpenFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
     features.extract_features()
 
     iterations = 100

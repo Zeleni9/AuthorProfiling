@@ -16,21 +16,11 @@ class GenderFeatureExtraction(FeatureExtraction):
     def __init__(self, users, truth_users, stopwords_file, frequent_male_words_file, frequent_female_words_file):
         self.structural_features = defaultdict(list)
         self.type = 0
-        self.frequent_male_words = []
-        self.frequent_female_words = []
+        self.frequent_male_words = self.txt_file_to_list(frequent_male_words_file)
+        self.frequent_female_words = self.txt_file_to_list(frequent_female_words_file)
         self.perceptron_tagger = PerceptronTagger(load=False)
         self.perceptron_tagger.load(AP_MODEL_LOC)
         self.data = defaultdict(list)
-
-        with open(frequent_male_words_file) as f:
-            data = f.readlines()
-            for line in data:
-                self.frequent_male_words.append(line.strip())
-
-        with open(frequent_female_words_file) as f:
-            data = f.readlines()
-            for line in data:
-                self.frequent_female_words.append(line.strip())
 
         super(GenderFeatureExtraction, self).__init__(users, truth_users, stopwords_file)
 

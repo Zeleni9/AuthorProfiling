@@ -6,39 +6,20 @@ from collections import Counter
 from nltk.data import find
 import re
 
-from featureExtraction import FeatureExtraction
+from bigFiveFeatureExtraction import BigFiveFeatureExtraction
 
 PICKLE = "averaged_perceptron_tagger.pickle"
 AP_MODEL_LOC = 'file:'+str(find('taggers/averaged_perceptron_tagger/'+PICKLE))
 
-class StableFeatureExtraction(FeatureExtraction):
-
-    def __init__(self, users, truth_users, stopwords_file, swagwords_file, positive_words_file, negative_words_file):
+class StableFeatureExtraction(BigFiveFeatureExtraction):
+    def __init__(self, users, truth_users, stopwords_file, swagwords_file, emotion_words_files):
         self.structural_features = defaultdict(list)
         self.type = 3
         self.data = defaultdict(list)
-        self.swag_words = []
-        self.positive_words = []
-        self.negative_words = []
         self.perceptron_tagger = PerceptronTagger(load=False)
         self.perceptron_tagger.load(AP_MODEL_LOC)
 
-        with open(swagwords_file) as f:
-            data = f.readlines()
-            for line in data:
-                self.swag_words.append(line.strip())
-
-        with open(positive_words_file) as f:
-            data = f.readlines()
-            for line in data:
-                self.positive_words.append(line.strip())
-
-        with open(negative_words_file) as f:
-            data = f.readlines()
-            for line in data:
-                self.negative_words.append(line.strip())
-
-        super(StableFeatureExtraction, self).__init__(users, truth_users, stopwords_file)
+        super(StableFeatureExtraction, self).__init__(users, truth_users, stopwords_file, swagwords_file, emotion_words_files)
 
 
     def extract_features(self):
@@ -78,11 +59,43 @@ class StableFeatureExtraction(FeatureExtraction):
 
             # positive words count
             positive_words_count = self.count_feature_from_file(text, self.positive_words)
-            #self.structural_features[key].append(positive_words_count)
+            # self.structural_features[key].append(positive_words_count)
 
             # negative words count
             negative_words_count = self.count_feature_from_file(text, self.negative_words)
-            #self.structural_features[key].append(negative_words_count)
+            # self.structural_features[key].append(negative_words_count)
+
+            # anger words count
+            anger_words_count = self.count_feature_from_file(text, self.anger_words)
+            # self.structural_features[key].append(anger_words_count)
+
+            # anticipation words count
+            anticipation_words_count = self.count_feature_from_file(text, self.anticipation_words)
+            self.structural_features[key].append(anticipation_words_count)
+
+            # disgust words count
+            disgust_words_count = self.count_feature_from_file(text, self.disgust_words)
+            # self.structural_features[key].append(disgust_words_count)
+
+            # fear words count
+            fear_words_count = self.count_feature_from_file(text, self.fear_words)
+            # self.structural_features[key].append(fear_words_count)
+
+            # joy words count
+            joy_words_count = self.count_feature_from_file(text, self.joy_words)
+            # self.structural_features[key].append(joy_words_count)
+
+            # sadness words count
+            sadness_words_count = self.count_feature_from_file(text, self.sadness_words)
+            # self.structural_features[key].append(sadness_words_count)
+
+            # surprise words count
+            surprise_words_count = self.count_feature_from_file(text, self.surprise_words)
+            # self.structural_features[key].append(surprise_words_count)
+
+            # trust words count
+            trust_words_count = self.count_feature_from_file(text, self.trust_words)
+            # self.structural_features[key].append(trust_words_count)
 
             # swag count
             swag_count = self.count_feature_from_file(text, self.swag_words)
