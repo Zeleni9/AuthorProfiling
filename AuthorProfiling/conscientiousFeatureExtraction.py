@@ -40,10 +40,10 @@ class ConscientiousFeatureExtraction(BigFiveFeatureExtraction):
 
             # uppercase words count
             uppercase_words_count = self.uppercase_words_count(text)
-            #self.structural_features[key].append(uppercase_words_count)
+            self.structural_features[key].append(uppercase_words_count)
 
             stopwords_count = self.count_stopwords(text)
-            #self.structural_features[key].append(stopwords_count)
+            self.structural_features[key].append(stopwords_count)
 
             # character overload count
             char_count = self.char_count(''.join(value))
@@ -60,19 +60,19 @@ class ConscientiousFeatureExtraction(BigFiveFeatureExtraction):
 
             # positive words count
             positive_words_count = self.count_feature_from_file(text, self.positive_words)
-            # self.structural_features[key].append(positive_words_count)
+            self.structural_features[key].append(positive_words_count)
 
             # negative words count
             negative_words_count = self.count_feature_from_file(text, self.negative_words)
-            # self.structural_features[key].append(negative_words_count)
+            #self.structural_features[key].append(negative_words_count)
 
             # anger words count
             anger_words_count = self.count_feature_from_file(text, self.anger_words)
-            # self.structural_features[key].append(anger_words_count)
+            #self.structural_features[key].append(anger_words_count)
 
             # anticipation words count
             anticipation_words_count = self.count_feature_from_file(text, self.anticipation_words)
-            # self.structural_features[key].append(anticipation_words_count)
+            #self.structural_features[key].append(anticipation_words_count)
 
             # disgust words count
             disgust_words_count = self.count_feature_from_file(text, self.disgust_words)
@@ -88,11 +88,11 @@ class ConscientiousFeatureExtraction(BigFiveFeatureExtraction):
 
             # sadness words count
             sadness_words_count = self.count_feature_from_file(text, self.sadness_words)
-            # self.structural_features[key].append(sadness_words_count)
+            self.structural_features[key].append(sadness_words_count)
 
             # surprise words count
             surprise_words_count = self.count_feature_from_file(text, self.surprise_words)
-            # self.structural_features[key].append(surprise_words_count)
+            self.structural_features[key].append(surprise_words_count)
 
             # trust words count
             trust_words_count = self.count_feature_from_file(text, self.trust_words)
