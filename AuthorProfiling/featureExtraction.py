@@ -65,12 +65,16 @@ class FeatureExtraction(object):
     # can be used for multiple features, such as: count swag, count frequent male words...
     def count_feature_from_file(self, tweets, word_list):
         count = 0
+        total_word_count=0
         for tweet in tweets:
-            for word in tweet.split(' '):
-                word = re.sub(r"[^A-Za-z']", "", word)
-                if str(word.lower()) in word_list: # some problems with comparing unicode to string, so I added this str conversion
-                    count += 1
-        return count
+            for word in tweet.split():
+                total_word_count+=1
+                word = re.sub(r"[^A-Za-z'-/]", "", word).lower().strip()
+                for word in re.split('-|/|,',word):
+                    word=re.sub('[.()]', '', word)
+                    if str(word) in word_list: # some problems with comparing unicode to string, so I added this str conversion
+                        count += 1
+        return count/total_word_count # normalize with total_word_count or with len(tweets)
 
     # return count of uppercase words in all tweets
     def uppercase_words_count(self, input):
@@ -78,7 +82,7 @@ class FeatureExtraction(object):
 
     def word_count(self, input):
         count = 0
-        for word in input.split(' '):
+        for word in input.split():
             count = count + 1
         return count
 
@@ -97,6 +101,8 @@ class FeatureExtraction(object):
     def exclamation_overload_count(self, input):
         return len(re.findall('!!+',' '.join(input)))
 
+    def question_mark_overload_count(self,input):
+        return len(re.findall('\?\?+', ' '.join(input)))
 
     def punctuation_count(self, input):
         return len(re.findall('[?.!]',' '.join(input)))
@@ -132,6 +138,11 @@ class FeatureExtraction(object):
             for word in tweet.split(' '):
                 word_lengths.append(len(word))
         return float(sum(word_lengths)) / len(word_lengths)
+
+
+    def count_words_longer_than_6_letters(self, input):
+        return len(re.findall(r'\b\w{6,}\b', ' '.join(input))) / len(input)
+
 
 
     # append features for every user from ngram TF-IDF matrix
