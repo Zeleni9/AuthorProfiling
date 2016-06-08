@@ -28,7 +28,7 @@ from agreeableFeatureExtraction import AgreeableFeatureExtraction
 from conscientiousFeatureExtraction import ConscientiousFeatureExtraction
 from openFeatureExtraction import OpenFeatureExtraction
 
-PATH_TO_WORD_FILES= 'C:/Users/User/Desktop/APT/Minesweepers_AuthorProfiling/AuthorProfiling/word_files/'
+PATH_TO_WORD_FILES= 'C:/Users/borna/Desktop/TAR/Minesweepers_AuthorProfiling/AuthorProfiling/word_files/'
 STOP_WORDS_PATH= PATH_TO_WORD_FILES + 'stopwords.txt'
 SWAG_WORDS_PATH= PATH_TO_WORD_FILES + 'swag_words.txt'
 FREQUENT_MALE_WORDS_PATH= PATH_TO_WORD_FILES + 'frequent_male_words.txt'
@@ -65,9 +65,9 @@ def main():
     #features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
     #features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
     #features = ExtrovertedFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
-    #features = StableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    features = StableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
     #features = AgreeableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
-    features = ConscientiousFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    #features = ConscientiousFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
     #features = OpenFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
     features.extract_features()
 
@@ -91,21 +91,13 @@ def main():
         predict_svr_default = svr_default_clf.predict(test_x)
         score_svr_default = mean_squared_error(test_y, predict_svr_default)
 
-        ridge_clf = Ridge()
-        ridge_clf.fit(train_x, train_y)
-
-        predict_ridge = ridge_clf.predict(test_x)
-        score_ridge = mean_squared_error(test_y, predict_ridge)
-
-
         score_svr_mean += math.sqrt(score_svr_optimized)
         score_svr_default_mean+=math.sqrt(score_svr_default)
-        score_ridge_mean += math.sqrt(score_ridge)
+        # score_ridge_mean += math.sqrt(score_ridge)
 
 
     print "Error Optimized SVM                  ", score_svr_mean/iterations
     print "Error Default SVM                  ", score_svr_default_mean / iterations
-    print "Error Ridge:                     ", score_ridge_mean/iterations
 
 
     # iterations = 100

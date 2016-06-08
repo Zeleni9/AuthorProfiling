@@ -41,10 +41,10 @@ class ExtrovertedFeatureExtraction(BigFiveFeatureExtraction):
             uppercase_words_count = self.uppercase_words_count(text)
             #self.structural_features[key].append(uppercase_words_count)
 
-            stopwords_count = self.count_stopwords(text)
-            #self.structural_features[key].append(stopwords_count)
-
             # character overload count
+            stopwords_count = self.count_stopwords(text)
+            # self.structural_features[key].append(stopwords_count)
+
             char_count = self.char_count(''.join(value))
             char_overload_count = self.char_overload_count(''.join(value))
             #self.structural_features[key].append(char_overload_count/char_count)
@@ -57,48 +57,52 @@ class ExtrovertedFeatureExtraction(BigFiveFeatureExtraction):
             word_length_avg = self.word_length_avg(value)
             #self.structural_features[key].append(word_length_avg)
 
+            count_words_longer_than_6_letters=self.count_words_longer_than_6_letters(text)
+            #self.structural_features[key].append(count_words_longer_than_6_letters)
+
+
             # positive words count
-            positive_words_count = self.count_feature_from_file(text, self.positive_words)
-            #self.structural_features[key].append(positive_words_count)
+            # positive_words_count = self.count_feature_from_file(text, self.positive_words)
+            # self.structural_features[key].append(positive_words_count)
 
             # negative words count
-            negative_words_count = self.count_feature_from_file(text, self.negative_words)
-            #self.structural_features[key].append(negative_words_count)
+            # negative_words_count = self.count_feature_from_file(text, self.negative_words)
+            # self.structural_features[key].append(negative_words_count)
 
             # anger words count
-            anger_words_count = self.count_feature_from_file(text, self.anger_words)
-            #self.structural_features[key].append(anger_words_count)
+            # anger_words_count = self.count_feature_from_file(text, self.anger_words)
+            # self.structural_features[key].append(anger_words_count)
 
             # anticipation words count
-            anticipation_words_count = self.count_feature_from_file(text, self.anticipation_words)
+            #anticipation_words_count = self.count_feature_from_file(text, self.anticipation_words)
             #self.structural_features[key].append(anticipation_words_count)
 
             # disgust words count
-            disgust_words_count = self.count_feature_from_file(text, self.disgust_words)
+            #disgust_words_count = self.count_feature_from_file(text, self.disgust_words)
             # self.structural_features[key].append(disgust_words_count)
 
             # fear words count
-            fear_words_count = self.count_feature_from_file(text, self.fear_words)
+            #fear_words_count = self.count_feature_from_file(text, self.fear_words)
             #self.structural_features[key].append(fear_words_count)
 
             # joy words count
-            joy_words_count = self.count_feature_from_file(text, self.joy_words)
+            #joy_words_count = self.count_feature_from_file(text, self.joy_words)
             #self.structural_features[key].append(joy_words_count)
 
             # sadness words count
-            sadness_words_count = self.count_feature_from_file(text, self.sadness_words)
+            #sadness_words_count = self.count_feature_from_file(text, self.sadness_words)
             # self.structural_features[key].append(sadness_words_count)
 
             # surprise words count
-            surprise_words_count = self.count_feature_from_file(text, self.surprise_words)
+            #surprise_words_count = self.count_feature_from_file(text, self.surprise_words)
             #self.structural_features[key].append(surprise_words_count)
 
             # trust words count
-            trust_words_count = self.count_feature_from_file(text, self.trust_words)
+            #trust_words_count = self.count_feature_from_file(text, self.trust_words)
             #self.structural_features[key].append(trust_words_count)
 
             # swag count
-            swag_count = self.count_feature_from_file(text, self.swag_words)
+            #swag_count = self.count_feature_from_file(text, self.swag_words)
             #self.structural_features[key].append(swag_count)
 
             # ... count
@@ -123,6 +127,34 @@ class ExtrovertedFeatureExtraction(BigFiveFeatureExtraction):
             pos_tags = self.get_pos_tags(text)
             F_score = self.calculate_F_Score(pos_tags)
             self.structural_features[key].append(F_score)
+
+            # preposition_count=self.get_pos_tag_count(pos_tags, "VBP")
+            # self.structural_features[key].append(preposition_count)
+
+            # article_count = self.count_feature_from_file(text, ['and','the','a'])
+            # self.structural_features[key].append(article_count)
+
+
+            first_person_pronouns_count = self.count_feature_from_file(text, ['i','we','me','us','our','mine','ours'])
+            self.structural_features[key].append(first_person_pronouns_count)
+
+            # second_person_pronouns_count = self.count_feature_from_file(text, ['you','your','yours'])
+            # self.structural_features[key].append(second_person_pronouns_count)
+
+            # third_person_pronouns_count = self.count_feature_from_file(text, ['he', 'she','they','it'])#'he', 'she','him','her','his','hers','they','them','their','theirs'
+            # self.structural_features[key].append(third_person_pronouns_count)
+
+            # negations_count = self.count_feature_from_file(text, ['no','not','never','nor','neither','none','nobody','nothing','nowhere'])
+            # self.structural_features[key].append(negations_count)
+
+            # assents_count = self.count_feature_from_file(text, ['yes','ok','k','yeah','yea','yup','yessir','sure','totally'])
+            # self.structural_features[key].append(assents_count)
+
+            # swear_count = self.count_feature_from_file(text, ['fuck', 'dick', 'cunt','whore','cock','slut','asshole','ass','bastard','bullshit','cum',
+            #                                                   'damn','dumb','dyke','fag','faggot','piss','pissed','pussy','shit','twat','tits','boobies'
+            #                                                   'boob','vagina'])
+            # self.structural_features[key].append(swear_count)
+
 
             # for trigram in self.tokens_trigrams('||'.join(text)):
             #     trigram_count[trigram] = trigram_count.get(trigram, 0) + 1
@@ -150,6 +182,10 @@ class ExtrovertedFeatureExtraction(BigFiveFeatureExtraction):
         tweet_tokenizer = TweetTokenizer()
         sentences = [tweet_tokenizer.tokenize(re.sub(r'["]', '', tweet)) for tweet in input]
         return self.perceptron_tagger.tag_sents(sentences)
+
+    def get_pos_tag_count(self,tagged,pos_tag):
+        counts = Counter(tag for tagged_sentence in tagged for word, tag in tagged_sentence)
+        return counts[pos_tag]
 
     # calculates F_score based on pos tags for each user
     def calculate_F_Score(self, tagged):
