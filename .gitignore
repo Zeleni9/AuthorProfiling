@@ -1,2 +1,2 @@
-AuthorProfiling/.idea/
-AuthorProfiling/*.pyc
+.idea/
+*.pyc
