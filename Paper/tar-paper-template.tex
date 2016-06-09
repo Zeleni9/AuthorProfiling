@@ -1,0 +1,88 @@
+% Paper template for TAR 2016
+% (C) 2014 Jan Šnajder, Goran Glavaš, Domagoj Alagić, Mladen Karan
+% TakeLab, FER
+
+\documentclass[10pt, a4paper]{article}
+
+\usepackage{tar2016}
+
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{scrextend}
+\usepackage{setspace}
+
+\title{ Author profiling}
+
+\name{Filip Zelić, Borna Sirovica, Ivan-Dominik Ljubičić} 
+
+\address{
+University of Zagreb, Faculty of Electrical Engineering and Computing\\
+Unska 3, 10000 Zagreb, Croatia\\ 
+\texttt{filip.zelic@fer.hr,
+borna.sirovica@fer.hr,
+ivan-dominik.ljubicic@fer.hr}\\
+}
+          
+         
+\abstract{ 
+\newgeometry{left=-5.2cm,right=-1cm}
+In this paper we present approach for the task of author profiling. // nešto o featurima
+  We address gender and age prediction as classification task and personality prediction as regresssion problem. Classification tasks we tackle using Support Vector Machine,
+  Logistic Regression and RandomForestClassifier. On the other hand regression tasks we model with Support Vector Machine Regression and xxx. As training data is created by joining each user's tweets in one document to process and extract features.
+}
+
+\begin{document}
+
+
+\maketitleabstract
+
+\section{Introduction}
+
+This section is the introduction to your paper. Introduction should not be too elaborate, that is what other sections are for (the Introduction should definitely not spill over to the second page). 
+
+This is the second paragraph of the introduction. In \LaTeX , paragraphs are separated by inserting an empty line in between them.  Avoid very large paragraphs (larger than half of the page height), but also avoid tiny paragraphs (e.g., one-sentence paragraphs).
+
+\section{Dataset}
+
+In scientific papers, this section usually (but not necessarily) briefly describes the related research. 
+
+\section{Aproach}
+
+
+This is a subsection of the second section.
+
+\subsection{Preprocessing}
+
+This is the second subsection of the second section. Referencing the (sub)sections in text is performed as follows: ``in Section \ref{sec:first} we have shown \dots''.
+
+\subsection{Feature extraction} 
+
+This is a sub-subsection. If possible, it is better to avoid sub-subsections. 
+
+\subsection{Classifiers}
+
+The paper should have a minimum of 3 and a maximum of 5 pages, plus an additional page for references.
+
+\section{Evaluation}
+
+
+
+\section{Conclusion and future work}
+
+Conclusion is the last enumerated section of the paper. It should not exceed half of a column and is typically split into 2--3 paragraphs. No new information should be presented in the conclusion; this section only summarizes and concludes the paper.
+
+
+\bibliographystyle{tar2016}
+\bibliography{tar2016} 
+
+\end{document}
+
