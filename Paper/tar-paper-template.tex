@@ -20,6 +20,7 @@
 \usepackage{scrextend}
 \usepackage{setspace}
 \usepackage{multirow}
+\usepackage{enumitem}
 
 \title{ Author profiling}
 
@@ -101,25 +102,70 @@ Open     & 0.24\\
 \end{center}
 \end{table}
 
-\section{Aproach}
+\section{Approach}
 
-
-This is a subsection of the second section.
+Along this section, we describe the steps we took to prepare features for the training of our supervised machine learning models. In subsection 3.1 we explain the preprocessing step in which we cleaned the data in order to get better performances for stylometric features. Subsection 3.2 explains extraction of various features for each separate subtask (age, gender and personality traits) and last subsection 3.3 describes classification and regression models we used tackling the task of author profiling.
 
 \subsection{Preprocessing}
 
-Preprocessing is done by creating a document for each user by joining all his/hers tweets from the dataset. After the creation, document is initally striped of xml tags and cleared of all twitter specific characteristics such as hashtags, @replies as well as URLs from the text. While doing this step we save the count of mentions, hashtags and replies for later use. When the preprocessing step is done, features need to be extracted. 
+Preprocessing is done by creating a document for each user by joining all his/hers tweets from the dataset. After the creation, document is initally striped of XML tags and cleared of all twitter specific characteristics such as hashtags, @replies as well as URLs from the text. While doing this step we save the count of mentions, hashtags and URLs for later use. When the preprocessing step is done, features need to be extracted. 
 
 \subsection{Feature extraction} 
 
-This is a sub-subsection. If possible, it is better to avoid sub-subsections. 
+As mentioned in the introduction, we used many different self-designed features and features extracted from publicly available resources for our machine learning algorithms.
+ 
+\textbf{Lexicon Features}. We used several lexicons, both manually crafted and automatically generated:
+\begin{itemize}[noitemsep,nolistsep]
+\item \textbf{NRC Word-Emotion Association Lexicon} []: one dictionary for each of the eight primary human emotions [//ako postoji neki paper]: anger, anticipation, disgust, fear, joy, sadness, surprise, trust as well as dictionaries for positive and negative emotion word classification
+\item \textbf{Internet slang word lexicon} : personally made dictionary with most common words younger people like to use on the Internet
+\item \textbf{Frequent male and female words lexicon} [] : dictionaries containing words most likely to be used by male or female person. Based on word usage frequency per million words.
+\item \textbf{Frequent male and female words lexicon} [??] : dictionaries containing function words, such as 'this' or 'not', most likely to be used by male or female person.
+\item \textbf{World Well-Being Project Personality Lexicon } [bugari i link na članak]:  top and bottom 100 words for each of the five traits, a total of 1000 words.
+\end{itemize}
+For each lexicon, we found the number of occurrences of lexicon terms in all tweets for each user, normalized by the total number of words in tweets. We instantiated separate features for the different lexicons.
 
-\subsection{Classifiers}
+\textbf{Twitter-specific Features.} We used the following Twitter-specific features:
+\begin{itemize}[noitemsep,nolistsep]
+\item \textbf{Letter case:} the number of upper-case words and upper-case characters
+\item \textbf{Hashtags:} the number of hashtags
+\item \textbf{URLs:} the number of URLs posted
+\item \textbf{User mentions:} the number of mentions of users using the pattern @username
+\item \textbf{Emoticons:} the number of emoticons used in tweets
+\end{itemize}
+All of the above counts are normalized by the total number of available tweets
+for the target user; so they could be viewed as “average number per tweet”.
 
-% Tu After concatenating these features
-together we normalize and scale their values, in order to avoid complications that can
-arise in the classification stage due to features with numeric values that differ a lot.
+\textbf{Orthographic Features.} We used the following orthographic features:
+\begin{itemize}[noitemsep,nolistsep] 
+\item \textbf{Character flooding:} the number of redundant character reduplication 
+\item \textbf{Word length:} average word length
+\item \textbf{Tweet length:} average tweet length
+\item \textbf{Specific characters:} usage of specific characters, such as the number of occurrences of the exclamation points, question marks or apostrophe in tweets
+\end{itemize}
 
+\textbf{Term-level Features.} We used the following term-level features:
+\begin{itemize}[noitemsep,nolistsep] 
+\item \textbf{n-grams:}: presence and count of unigrams and trigrams //borna
+\item \textbf{POS tagging:} //borna
+\end{itemize}
+
+\subsection{Supervised learning models}
+
+Supervised machine learning models are used with hiperparameter optimization using grid search and k-fold cross validation on  70\% of training data. Regarding classification task for age and gender, we tested the following classification models: 
+\begin{itemize}
+	\item[-] Support Vector Machine Classification (SVC) with linear kernel and rbf kernel
+	\item[-] Logistic Regression
+	\item[-] Random Forest
+\end{itemize}
+
+On the other hand regarding regression task for personality traits, we tested following regression models:  
+\begin{itemize}
+	\item[-] Support Vector Machine Regression (SVR) with linear kernel and rbf kernel
+	\item[-] Linear Regression
+	\item[-] Polynomial Regression	
+\end{itemize}
+
+Features are scaled using StandardScaler from sklearn python library in order to avoid complications that can arise in the classification stage due to features with numeric values that differ a lot.
 
 
 \section{Evaluation}
