@@ -40,13 +40,8 @@ class GenderFeatureExtraction(FeatureExtraction):
             text, hashtag_count = self.process_hashtags(text)
             #self.structural_features[key].append(hashtag_count)
 
-
-            # counts most frequent male function words
-            frequent_male_function_words_count = self.count_feature_from_file(text, ['the', 'this', 'that'])#'the', 'this', 'that','as','one'
-            #self.structural_features[key].append(frequent_male_function_words_count)
-
             # counts most frequent female function words
-            frequent_female_function_words_count = self.count_feature_from_file(text, ['not','she'])#'for', 'with', 'she','not','and','in'
+            frequent_female_function_words_count = self.count_feature_from_file(text, ['not','she'])
             self.structural_features[key].append(frequent_female_function_words_count)
 
             # counts words that are most likely to be used by men
@@ -64,7 +59,7 @@ class GenderFeatureExtraction(FeatureExtraction):
 
             # !!+ count
             exclamation_count = self.exclamation_overload_count(value)
-            self.structural_features[key].append(exclamation_count / char_count)
+            self.structural_features[key].append(exclamation_count)
 
             stopwords_count = self.count_stopwords(text)
             #self.structural_features[key].append(stopwords_count)
@@ -73,32 +68,7 @@ class GenderFeatureExtraction(FeatureExtraction):
             F_score=self.calculate_F_Score(pos_tags)
             self.structural_features[key].append(F_score)
 
-            gender_preferential_features=self.get_gender_preferential_features(' '.join(text).lower())
-            #self.structural_features[key].extend(gender_preferential_features)
-
-            # for trigram in self.tokens_trigrams('||'.join(text)):
-            #     trigram_count[trigram] = trigram_count.get(trigram, 0) + 1
-            # for unigram in self.tokens_unigrams('||'.join(text)):
-            #     unigram_count[unigram] = unigram_count.get(unigram, 0) + 1
-
             docs.append('||'.join(text))
-
-
-
-        # frequent_trigrams = 0
-        # for trigram, count in trigram_count.iteritems():
-        #     if (count > 0):
-        #         frequent_trigrams += 1
-        # print frequent_trigrams
-        #
-        # frequent_unigrams = 0
-        # for unigram, count in unigram_count.iteritems():
-        #     if (count > 10):
-        #         frequent_unigrams += 1
-        # print frequent_unigrams;
-
-        # self.structural_features = self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs, 450), self.structural_features)
-        # self.structural_features = self.append_ngram_tfidf_features(self.get_unigrams_tf_idf(docs, 1000), self.structural_features)
 
         self.data = self.join_users_truth(self.structural_features, self.transform_gender, self.type)
         self.feature_number = len(self.structural_features.values()[0])

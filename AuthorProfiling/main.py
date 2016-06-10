@@ -1,8 +1,6 @@
 import os
 from preprocessing import Preprocess
 import time
-import nltk
-import re
 
 # Import classes
 from ageFeatureExtraction import AgeFeatureExtraction
@@ -48,22 +46,47 @@ def main():
     emotion_words_files = {'positive_words_file' : POSITIVE_WORDS, 'negative_words_file' : NEGATIVE_WORDS, 'anger_words_file' : ANGER_WORDS, 'anticipation_words_file' : ANTICIPATION_WORDS, 'disgust_words_file' : DISGUST_WORDS,
                    'fear_words_file' : FEAR_WORDS, 'joy_words_file' : JOY_WORDS, 'sadness_words_file' : SADNESS_WORDS, 'surprise_words_file' : SURPRISE_WORDS, 'trust_words_file' : TRUST_WORDS}
 
-
-    #features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
-    features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
-    #features = ExtrovertedFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
-    #features = StableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
-    #features = AgreeableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
-    #features = ConscientiousFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
-    #features = OpenFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    features_list = []
+    num_models = 7
+    features = AgeFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH)
     features.extract_features()
+    features_list.append([features, "c", "Age classification: "])
+
+    features = GenderFeatureExtraction(users, truth_users, STOP_WORDS_PATH, FREQUENT_MALE_WORDS_PATH, FREQUENT_FEMALE_WORDS_PATH)
+    features.extract_features()
+    features_list.append([features, "c", "Gender classification: "])
+
+    features = ExtrovertedFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    features.extract_features()
+    features_list.append([features, "r", "Extroverted regression: "])
+
+    features = StableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    features.extract_features()
+    features_list.append([features, "r", "Stable regression: "])
+
+    features = AgreeableFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    features.extract_features()
+    features_list.append([features, "r", "Agreeable regression: "])
+
+    features = ConscientiousFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    features.extract_features()
+    features_list.append([features, "r", " Conscientious regression:"])
+
+    features = OpenFeatureExtraction(users, truth_users, STOP_WORDS_PATH, SWAG_WORDS_PATH, emotion_words_files)
+    features.extract_features()
+    features_list.append([features, "r", "Open regression:"])
 
     iterations = 100
+    for i in range(0, num_models):
+        model = ""
+        if (features_list[i][1] == "c"):
+            model = ClassificationModel(features_list[i][0], iterations)
+        elif (features_list[i][1] == "r"):
+            model = RegressionModel(features_list[i][0], iterations)
 
-    #model = RegressionModel(features, iterations)
-    model = ClassificationModel(features, iterations)
-
-    model.evaluate_models()
+        print features_list[i][2]
+        model.evaluate_models()
+        print
 
 
     print ("")

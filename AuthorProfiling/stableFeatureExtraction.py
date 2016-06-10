@@ -41,65 +41,13 @@ class StableFeatureExtraction(BigFiveFeatureExtraction):
             uppercase_words_count = self.uppercase_words_count(text)
             self.structural_features[key].append(uppercase_words_count)
 
-            #stopwords_count = self.count_stopwords(text)
-            #self.structural_features[key].append(stopwords_count)
-
-            # character overload count
-            #char_count = self.char_count(''.join(value))
-            #char_overload_count = self.char_overload_count(''.join(value))
-            #self.structural_features[key].append(char_overload_count/char_count)
-
             # tweet length ratio
             tweet_length_avg = self.tweet_length_avg(value)
             self.structural_features[key].append(tweet_length_avg)
 
-            # word length ratio
-            #word_length_avg = self.word_length_avg(value)
-            #self.structural_features[key].append(word_length_avg)
-
-            # positive words count
-            # positive_words_count = self.count_feature_from_file(text, self.positive_words)
-            # self.structural_features[key].append(positive_words_count)
-
-            # negative words count
-            # negative_words_count = self.count_feature_from_file(text, self.negative_words)
-            # self.structural_features[key].append(negative_words_count)
-
-            # anger words count
-            # anger_words_count = self.count_feature_from_file(text, self.anger_words)
-            # self.structural_features[key].append(anger_words_count)
-
             # anticipation words count
             anticipation_words_count = self.count_feature_from_file(text, self.anticipation_words)
             self.structural_features[key].append(anticipation_words_count)
-
-            # disgust words count
-            # disgust_words_count = self.count_feature_from_file(text, self.disgust_words)
-            # self.structural_features[key].append(disgust_words_count)
-
-            # fear words count
-            # fear_words_count = self.count_feature_from_file(text, self.fear_words)
-            # self.structural_features[key].append(fear_words_count)
-
-            # joy words count
-            # joy_words_count = self.count_feature_from_file(text, self.joy_words)
-            # self.structural_features[key].append(joy_words_count)
-
-            # sadness words count
-            # sadness_words_count = self.count_feature_from_file(text, self.sadness_words)
-            # self.structural_features[key].append(sadness_words_count)
-
-            # surprise words count
-            # surprise_words_count = self.count_feature_from_file(text, self.surprise_words)
-            # self.structural_features[key].append(surprise_words_count)
-
-            # trust words count
-            # trust_words_count = self.count_feature_from_file(text, self.trust_words)
-            # self.structural_features[key].append(trust_words_count)
-
-            # swag count
-            # swag_count = self.count_feature_from_file(text, self.swag_words)
-            # self.structural_features[key].append(swag_count)
 
             # ... count
             three_dot_count=self.three_dot_count(value)
@@ -108,17 +56,6 @@ class StableFeatureExtraction(BigFiveFeatureExtraction):
             # !!+ count
             exclamation_count = self.exclamation_overload_count(value)
             self.structural_features[key].append(exclamation_count)
-
-            # " count
-            # quotation_count = self.quotation_count(value)
-            # self.structural_features[key].append(quotation_count)
-
-            # punctuation_count = self.punctuation_count(text)
-            # self.structural_features[key].append(punctuation_count)
-
-            # emoticon count
-            # emoticon_count = self.emoticon_count(value)
-            # self.structural_features[key].append(emoticon_count)
 
             pos_tags = self.get_pos_tags(text)
             F_score = self.calculate_F_Score(pos_tags)
@@ -131,19 +68,7 @@ class StableFeatureExtraction(BigFiveFeatureExtraction):
             negations_count = self.count_feature_from_file(text, ['no','not','neither','nowhere','none','nor','nope'])
             self.structural_features[key].append(negations_count)
 
-            # for trigram in self.tokens_trigrams('||'.join(text)):
-            #     trigram_count[trigram] = trigram_count.get(trigram, 0) + 1
-
             docs.append('||'.join(text))
-
-
-        # frequent_trigrams = 0
-        # for trigram, count in trigram_count.iteritems():
-        #     if (count > 2):
-        #         frequent_trigrams += 1
-
-        #self.structural_features = self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs,500), self.structural_features)
-        #self.structural_features = self.append_ngram_tfidf_features(self.get_unigrams_tf_idf(docs, 1000), self.structural_features)
 
         self.data = self.join_users_truth(self.structural_features, self.do_nothing, self.type)
         self.feature_number = len(self.structural_features.values()[0])

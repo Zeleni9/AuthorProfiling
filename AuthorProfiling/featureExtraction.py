@@ -2,14 +2,11 @@ from __future__ import division
 from collections import defaultdict
 import re
 import numpy as np
-
 from nltk.util import ngrams
 import collections
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_extraction.text import CountVectorizer
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem.porter import PorterStemmer
-from nltk.corpus import words as nltk_corpus
 
 from sklearn.utils import shuffle
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, Normalizer
@@ -29,12 +26,10 @@ class FeatureExtraction(object):
     # opens .txt file that contains words in each row and returns all words as list
     def txt_file_to_list(self, txt_file):
         list = []
-
         with open(txt_file) as f:
             data = f.readlines()
             for line in data:
                 list.append(line.strip())
-
         return list
 
 
@@ -74,7 +69,7 @@ class FeatureExtraction(object):
                     word=re.sub('[.()]', '', word)
                     if str(word) in word_list: # some problems with comparing unicode to string, so I added this str conversion
                         count += 1
-        return count # /total_word_count # normalize with total_word_count or with len(tweets)
+        return count/total_word_count # normalize with total_word_count or with len(tweets)
 
     # return count of uppercase words in all tweets
     def uppercase_words_count(self, input):
@@ -159,8 +154,6 @@ class FeatureExtraction(object):
     def get_trigrams_tf_idf(self, input , feature_num):
         trigram_vectorizer = TfidfVectorizer(tokenizer=self.tokens_trigrams,ngram_range=(1, 1),stop_words=self.stopwords, max_features=feature_num)
         X = trigram_vectorizer.fit_transform(input)
-        # features = trigram_vectorizer.get_feature_names()
-        # print features
         return X.toarray()
 
 
@@ -185,8 +178,6 @@ class FeatureExtraction(object):
         trigram_vectorizer = TfidfVectorizer(tokenizer=self.tokens_unigrams, ngram_range=(1, 1),
                                              stop_words=self.stopwords, max_features=feature_num)
         X = trigram_vectorizer.fit_transform(input)
-        # features = trigram_vectorizer.get_feature_names()
-        # print features
         return X.toarray()
 
 

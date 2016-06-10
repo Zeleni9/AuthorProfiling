@@ -3,7 +3,6 @@ from sklearn import svm
 from sklearn import linear_model
 from sklearn.grid_search import GridSearchCV
 from sklearn.metrics import accuracy_score
-import numpy as np
 
 class ClassificationModel():
 

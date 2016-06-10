@@ -1,19 +1,4 @@
 from __future__ import division
-from collections import defaultdict
-import re
-import numpy as np
-
-from nltk.util import ngrams
-import collections
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_extraction.text import CountVectorizer
-from nltk.tokenize import RegexpTokenizer
-from nltk.stem.porter import PorterStemmer
-from nltk.corpus import words as nltk_corpus
-
-from sklearn.utils import shuffle
-from sklearn.preprocessing import MinMaxScaler, StandardScaler, Normalizer
-
 from featureExtraction import FeatureExtraction
 
 class BigFiveFeatureExtraction(FeatureExtraction):

@@ -1,13 +1,6 @@
 from __future__ import division
 from collections import defaultdict
-
 from featureExtraction import FeatureExtraction
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_extraction.text import CountVectorizer
-from nltk.tokenize import RegexpTokenizer
-from nltk.stem.porter import PorterStemmer
-
-from sklearn.preprocessing import StandardScaler
 
 class AgeFeatureExtraction(FeatureExtraction):
 
@@ -63,16 +56,9 @@ class AgeFeatureExtraction(FeatureExtraction):
             three_dot_count=self.three_dot_count(text)
             self.structural_features[key].append(three_dot_count)
 
-            # !!+ count
-            exclamation_count = self.exclamation_overload_count(value)
-            #self.structural_features[key].append(exclamation_count)
-
             # " count
             quotation_count = self.quotation_count(value)
             self.structural_features[key].append(quotation_count)
-
-            punctuation_count = self.punctuation_count(text)
-            #self.structural_features[key].append(punctuation_count)
 
             # emoticon count
             emoticon_count = self.emoticon_count(value)

@@ -62,22 +62,6 @@ class ConscientiousFeatureExtraction(BigFiveFeatureExtraction):
             positive_words_count = self.count_feature_from_file(text, self.positive_words)
             self.structural_features[key].append(positive_words_count)
 
-            # negative words count
-            negative_words_count = self.count_feature_from_file(text, self.negative_words)
-            #self.structural_features[key].append(negative_words_count)
-
-            # anger words count
-            anger_words_count = self.count_feature_from_file(text, self.anger_words)
-            #self.structural_features[key].append(anger_words_count)
-
-            # anticipation words count
-            anticipation_words_count = self.count_feature_from_file(text, self.anticipation_words)
-            #self.structural_features[key].append(anticipation_words_count)
-
-            # disgust words count
-            disgust_words_count = self.count_feature_from_file(text, self.disgust_words)
-            # self.structural_features[key].append(disgust_words_count)
-
             # fear words count
             fear_words_count = self.count_feature_from_file(text, self.fear_words)
             # self.structural_features[key].append(fear_words_count)
@@ -98,22 +82,6 @@ class ConscientiousFeatureExtraction(BigFiveFeatureExtraction):
             trust_words_count = self.count_feature_from_file(text, self.trust_words)
             self.structural_features[key].append(trust_words_count)
 
-            # swag count
-            swag_count = self.count_feature_from_file(text, self.swag_words)
-            #self.structural_features[key].append(swag_count)
-
-            # ... count
-            three_dot_count=self.three_dot_count(value)
-            #self.structural_features[key].append(three_dot_count)
-
-            # !!+ count
-            exclamation_count = self.exclamation_overload_count(value)
-            #self.structural_features[key].append(exclamation_count)
-
-            # " count
-            quotation_count = self.quotation_count(value)
-            #self.structural_features[key].append(quotation_count)
-
             punctuation_count = self.punctuation_count(text)
             #self.structural_features[key].append(punctuation_count)
 
@@ -125,19 +93,7 @@ class ConscientiousFeatureExtraction(BigFiveFeatureExtraction):
             F_score = self.calculate_F_Score(pos_tags)
             self.structural_features[key].append(F_score)
 
-            # for trigram in self.tokens_trigrams('||'.join(text)):
-            #     trigram_count[trigram] = trigram_count.get(trigram, 0) + 1
-
             docs.append('||'.join(text))
-
-
-        # frequent_trigrams = 0
-        # for trigram, count in trigram_count.iteritems():
-        #     if (count > 2):
-        #         frequent_trigrams += 1
-
-        #self.structural_features = self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs,500), self.structural_features)
-        #self.structural_features = self.append_ngram_tfidf_features(self.get_unigrams_tf_idf(docs, 1000), self.structural_features)
 
         self.data = self.join_users_truth(self.structural_features, self.do_nothing, self.type)
         self.feature_number = len(self.structural_features.values()[0])
