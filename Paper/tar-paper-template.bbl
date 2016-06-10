@@ -12,11 +12,23 @@ Argamon and Shimoni.
 \newblock Automatically categorizing written texts by author gender.
 \newblock {\em Literary and Linguistic Computing}, 17:401–--412.
 
+\bibitem[\protect\citename{Kiprov}2015]{kiprov2015}
+Nakov-Koychev Kiprov, Hardalov.
+\newblock 2015.
+\newblock Experiments in author profiling—notebook for pan.
+\newblock {\em CLEF PAN 2015}.
+
 \bibitem[\protect\citename{McCrae and Costa}2008]{mccrae2008}
 McCrae and Costa.
 \newblock 2008.
 \newblock A contemplated revision of the neo five-factor inventory.
 \newblock {\em The SAGE handbook of personality theory and assessment}.
+
+\bibitem[\protect\citename{Mohammad}2013]{mohammad2013}
+Mohammad.
+\newblock 2013.
+\newblock Research in computational linguistic.
+\newblock {\em National Research Council Canada}.
 
 \bibitem[\protect\citename{PAN}2015]{dataset2015}
 PAN.
@@ -26,7 +38,7 @@ PAN.
   https://github.com/dmincu/Author-Profiling/tree/master/pan15-author-profiling-training-dataset-2015-03-02/pan15-author-profiling-training-dataset-english-2015-03-02}.
 
 \bibitem[\protect\citename{Pardo and Inches}2013]{pardo2013}
-Koppel~Stamatatos Pardo, Rosso and Inches.
+Koppel-Stamatatos Pardo, Rosso and Inches.
 \newblock 2013.
 \newblock Overview of the author profiling task at pan 2013.
 \newblock {\em Working Notes for CLEF 2013 Conference}.
@@ -39,15 +51,30 @@ Daelemans Peersman and Vaerenbergh.
   ’11}, pages 37--44.
 
 \bibitem[\protect\citename{Rangel and Daelemans}2014]{rangel2014}
-Chugur Potthast Trenkmann Stein~Verhoeven Rangel, Rosso and Daelemans.
+Chugur-Potthast Trenkmann-Stein-Verhoeven Rangel, Rosso and Daelemans.
 \newblock 2014.
 \newblock Overview of the 2nd author profiling task at pan 2014.
 \newblock {\em CLEF 2014 Evaluation Labs and Workshop}.
 
 \bibitem[\protect\citename{Rangel and Daelemans}2015]{rangel2015}
-Potthast~Stein Rangel, Rosso and Daelemans.
+Potthast-Stein Rangel, Rosso and Daelemans.
 \newblock 2015.
 \newblock Overview of the 3rd author profiling task at pan 2015.
 \newblock {\em CLEF 2015 Labs and Workshops}.
+
+\bibitem[\protect\citename{Schwartz and Ungar}2013]{schwartz2013}
+Kern-Dziurzynski Ramones-Agrawal-Shah Stillwell-Seligman Schwartz, Eichstaedt
+  and Ungar.
+\newblock 2013.
+\newblock Personality, gender, and age in the language of social media: The
+  open-vocabulary approach.
+\newblock {\em In PLOS ONE}, 8.
+
+\bibitem[\protect\citename{Álvarez Carmona and Escalante}2015]{escalante2015}
+Montes-y-Gómez Villaseñor-Pineda Álvarez Carmona, López-Monroy and
+  Escalante.
+\newblock 2015.
+\newblock Author profiling task notebook for pan at clef 2015.
+\newblock {\em INAOE’s participation at PAN’15}.
 
 \end{thebibliography}
