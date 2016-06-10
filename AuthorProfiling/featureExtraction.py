@@ -74,7 +74,7 @@ class FeatureExtraction(object):
                     word=re.sub('[.()]', '', word)
                     if str(word) in word_list: # some problems with comparing unicode to string, so I added this str conversion
                         count += 1
-        return count/total_word_count # normalize with total_word_count or with len(tweets)
+        return count # /total_word_count # normalize with total_word_count or with len(tweets)
 
     # return count of uppercase words in all tweets
     def uppercase_words_count(self, input):
