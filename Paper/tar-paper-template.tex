@@ -19,6 +19,7 @@
 \usepackage{geometry}
 \usepackage{scrextend}
 \usepackage{setspace}
+\usepackage{multirow}
 
 \title{ Author profiling}
 
@@ -35,25 +36,70 @@ ivan-dominik.ljubicic@fer.hr}\\
          
 \abstract{ 
 \newgeometry{left=-5.2cm,right=-1cm}
-In this paper we present approach for the task of author profiling. // nešto o featurima
-  We address gender and age prediction as classification task and personality prediction as regresssion problem. Classification tasks we tackle using Support Vector Machine,
-  Logistic Regression and RandomForestClassifier. On the other hand regression tasks we model with Support Vector Machine Regression and xxx. As training data is created by joining each user's tweets in one document to process and extract features.
+In this paper, we present our approach to the author profiling task, a student project for Text Analysis and Retrieval course. Given a set of tweets by the same person, the task aims at identifying age, gender and personality traits of that person. We address age and gender prediction as a classification task and a personality prediction as a regression problem. We experimented with Support Vector Machine for classification and regression and other machine learning algorithms using a variety of custom designed features as well as features extracted from publicly available resources.
 }
 
 \begin{document}
-
 
 \maketitleabstract
 
 \section{Introduction}
 
-This section is the introduction to your paper. Introduction should not be too elaborate, that is what other sections are for (the Introduction should definitely not spill over to the second page). 
+Author profiling distinguishes between classes of authors by studying their sociolect aspect, i.e., how language is shared or how an author can be characterized from a psychological viewpoint. This information helps in identifying profiling aspects such as gender, age, native language, or personality type. Author profiling is a problem of growing importance, among others for applications in forensics, security, and marketing. However, social profiling still remains a less-explored topic, even though the exponential growth of social networks increased its importance even further. While there were several publications that were trying to predict some demographical information such as gender, age, and native language \citep{argamon2003}, \citep{peersman2011}, as well as the personality type, and to perform author profiling in general \citep{argamon2009}, the real push forward was enabled by specialized competitions such as the PAN shared tasks on author profiling \citep{pardo2013}, \citep{rangel2014}, \citep{rangel2015}, which ran in 2013–2015. 
 
-This is the second paragraph of the introduction. In \LaTeX , paragraphs are separated by inserting an empty line in between them.  Avoid very large paragraphs (larger than half of the page height), but also avoid tiny paragraphs (e.g., one-sentence paragraphs).
+This paper presents our approach for the author profiling task. The task focused on predicting an author’s demographics (age and gender) and the big five personality traits \citep{mccrae2008} (agreeable, conscientious, extroverted, open, stable) from the text of a set of tweets by the same target author. Corpora contained tweets from 152 users in the English language.
+
+% Promijeniti 
+ We experimented with Support Vector Machine Classification, Regression and other machine learning algorithms using a variety of custom designed features as well as features extracted from publicly available resources. 
+
+
+This paper is organized as follows: Section 2 presents general approach and methodology used in the experiments, including a description of the preprocessing, the features, and the learning algorithms we used. Section 3 presents and discusses our results and provides some deeper analysis. Finally, Section 5 concludes and points to possible directions for future work.
 
 \section{Dataset}
 
-In scientific papers, this section usually (but not necessarily) briefly describes the related research. 
+The dataset we used consisted of English tweets from 152 users in \textit{.xml} format along with one \textit{truth.txt} file with age, gender and the Big Five personality traits labels for each user \citep{dataset2015} . For labeling age, the following classes were considered: 1) 18-24, 2) 25-34, 3) 35-49, 4) 50+ and gender was labeled as male (M) or female (F). The distribution of the gender and age labels in the corpus is reported in Table~\ref{tab:narrow-table-1}. For the case of gender classes the corpus was balanced with 50\% of the tweets labeled as male and other half as female, but regarding age the distribution was skewed due to the lower number (around 22\%) of the older users (labels \textit{35-49} and \textit{50+}) and higher number (around 78\%) of the younger users (labels \textit{18-24} and \textit{25-34}).
+\begin{table}[h]
+\caption{Distribution of Twitter users with respect to the age and gender labels in the corpus.}
+\label{tab:narrow-table-1}
+\vspace{-3mm}
+\begin{center}
+\begin{tabular}{llc}
+\toprule
+Trait & Label & Number of users\\
+\midrule
+\multirow{4}{*}{Age}
+		&18-24   & 58\\
+    &25-34   & 60\\
+    &35-49   & 22\\
+    &50+   & 12\\
+\midrule
+\multirow{2}{*}{Gender}
+		&Male   & 76\\
+    &Female & 76\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+Regarding personality traits normalized numeric rating in [-0.5,0.5] range was given for each of the following properties:  extroverted, stable, agreeable, conscientious, and open. The mean for each trait is reported in Table~\ref{tab:narrow-table-2}.
+\begin{table}[h]
+\caption{Mean values of the Big Five personality traits in the corpus.}
+\label{tab:narrow-table-2}
+\vspace{-3mm}
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Personality trait & Mean value\\
+\midrule
+Extroverted  & 0.16\\
+Stable   & 0.14\\
+Agreeable  & 0.12\\
+Conscientious     & 0.17\\
+Open     & 0.24\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 
 \section{Aproach}
 
@@ -62,7 +108,7 @@ This is a subsection of the second section.
 
 \subsection{Preprocessing}
 
-This is the second subsection of the second section. Referencing the (sub)sections in text is performed as follows: ``in Section \ref{sec:first} we have shown \dots''.
+Preprocessing is done by creating a document for each user by joining all his/hers tweets from the dataset. After the creation, document is initally striped of xml tags and cleared of all twitter specific characteristics such as hashtags, @replies as well as URLs from the text. While doing this step we save the count of mentions, hashtags and replies for later use. When the preprocessing step is done, features need to be extracted. 
 
 \subsection{Feature extraction} 
 
@@ -70,7 +116,11 @@ This is a sub-subsection. If possible, it is better to avoid sub-subsections.
 
 \subsection{Classifiers}
 
-The paper should have a minimum of 3 and a maximum of 5 pages, plus an additional page for references.
+% Tu After concatenating these features
+together we normalize and scale their values, in order to avoid complications that can
+arise in the classification stage due to features with numeric values that differ a lot.
+
+
 
 \section{Evaluation}
 

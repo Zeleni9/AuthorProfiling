@@ -1,52 +1,53 @@
 \begin{thebibliography}{}
 
-\bibitem[\protect\citename{Butcher}1981]{butcher-81}
-Judith Butcher.
-\newblock 1981.
-\newblock {\em Copy-editing}.
-\newblock Cambridge University Press, 2nd edition.
+\bibitem[\protect\citename{Argamon and Schler}2009]{argamon2009}
+Pennebaker Argamon, Koppel and Schler.
+\newblock 2009.
+\newblock Automatically profiling the author of an anonymous text.
+\newblock {\em Commun. ACM}, 2:119--123.
 
-\bibitem[\protect\citename{Chave}1964]{chave-64}
-K.~E. Chave.
-\newblock 1964.
-\newblock Skeletal {D}urability and {P}reservation.
-\newblock In J.~Imbrie and N.~Newel, editors, {\em Approaches to paleoecology},
-  pages 377--87, New York. Wiley.
+\bibitem[\protect\citename{Argamon and Shimoni}2003]{argamon2003}
+Argamon and Shimoni.
+\newblock 2003.
+\newblock Automatically categorizing written texts by author gender.
+\newblock {\em Literary and Linguistic Computing}, 17:401–--412.
 
-\bibitem[\protect\citename{Chomsky}1973]{chomsky-73}
-N.~Chomsky.
-\newblock 1973.
-\newblock Conditions on {T}ransformations.
-\newblock In S.~R. Anderson and P.~Kiparsky, editors, {\em A festschrift for
-  {Morris Halle}}, New York. Holt, Rinehart \& Winston.
+\bibitem[\protect\citename{McCrae and Costa}2008]{mccrae2008}
+McCrae and Costa.
+\newblock 2008.
+\newblock A contemplated revision of the neo five-factor inventory.
+\newblock {\em The SAGE handbook of personality theory and assessment}.
 
-\bibitem[\protect\citename{Croft}1978]{croft-78}
-W.~B. Croft.
-\newblock 1978.
-\newblock {\em Organizing and searching large files of document descriptions}.
-\newblock {Ph.D.} thesis, Cambridge University.
+\bibitem[\protect\citename{PAN}2015]{dataset2015}
+PAN.
+\newblock 2015.
+\newblock Pan15-author-profiling-training-dataset-english.
+\newblock {\em
+  https://github.com/dmincu/Author-Profiling/tree/master/pan15-author-profiling-training-dataset-2015-03-02/pan15-author-profiling-training-dataset-english-2015-03-02}.
 
-\bibitem[\protect\citename{Feigl}1958]{feigl-58}
-F.~Feigl, 1958.
-\newblock {\em Spot Tests in Organic Analysis}, chapter~6.
-\newblock Publisher publisher, 5th edition.
+\bibitem[\protect\citename{Pardo and Inches}2013]{pardo2013}
+Koppel~Stamatatos Pardo, Rosso and Inches.
+\newblock 2013.
+\newblock Overview of the author profiling task at pan 2013.
+\newblock {\em Working Notes for CLEF 2013 Conference}.
 
-\bibitem[\protect\citename{Howells}1951]{howells-51}
-W.~W. Howells.
-\newblock 1951.
-\newblock Factors of human physique.
-\newblock {\em American Journal of Physical Anthropology}, 9:159--192.
+\bibitem[\protect\citename{Peersman and Vaerenbergh}2011]{peersman2011}
+Daelemans Peersman and Vaerenbergh.
+\newblock 2011.
+\newblock Predicting age and gender in online social networks.
+\newblock {\em Workshop on Search and Mining User-generated Contents, SMUC
+  ’11}, pages 37--44.
 
-\bibitem[\protect\citename{Johnson and Howells}1974]{johnson-howells}
-G.~B. Johnson and W.~W. Howells.
-\newblock 1974.
-\newblock Title title title title title title title title title title.
-\newblock {\em Journal journal journal}.
+\bibitem[\protect\citename{Rangel and Daelemans}2014]{rangel2014}
+Chugur Potthast Trenkmann Stein~Verhoeven Rangel, Rosso and Daelemans.
+\newblock 2014.
+\newblock Overview of the 2nd author profiling task at pan 2014.
+\newblock {\em CLEF 2014 Evaluation Labs and Workshop}.
 
-\bibitem[\protect\citename{Johnson \bgroup et al.\egroup }1976]{johnson-etc}
-G.~B. Johnson, W.~W. Howells, and A.~N. Other.
-\newblock 1976.
-\newblock Title title title title title title title title title title.
-\newblock {\em Journal journal journal}.
+\bibitem[\protect\citename{Rangel and Daelemans}2015]{rangel2015}
+Potthast~Stein Rangel, Rosso and Daelemans.
+\newblock 2015.
+\newblock Overview of the 3rd author profiling task at pan 2015.
+\newblock {\em CLEF 2015 Labs and Workshops}.
 
 \end{thebibliography}
