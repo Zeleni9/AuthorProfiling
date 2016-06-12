@@ -1,0 +1,6 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{Project topic}{3}{0}{1}
+\beamer@sectionintoc {2}{Preprocessing}{5}{0}{2}
+\beamer@sectionintoc {3}{Feature extraction}{7}{0}{3}
+\beamer@sectionintoc {4}{Supervised learning model}{8}{0}{4}
+\beamer@sectionintoc {5}{Results}{10}{0}{5}
