@@ -142,9 +142,6 @@ Fakultet elektrotehnike i računarstva \\ % Your institution for the title page
 	\item Identifying information about an author by analyzing their writing style
 	\item Distinguishes between classes of authors studying their sociolect aspect
 	\item Growing importance in forensics, security, marketing, and social networks
-
-	
-	
 \end{itemize}
 	\vspace{3mm}
 	\centerline{\includegraphics[scale=0.35]{author-profiling-task}}
@@ -154,13 +151,11 @@ Fakultet elektrotehnike i računarstva \\ % Your institution for the title page
 
 %------------------------------------------------
 
-
-
-
 \begin{frame}
 \frametitle{Our task}
 \vspace{-2mm}
 \begin{itemize}
+\setlength\itemsep{2mm}
 	\item Predicting author profiling aspects
 	\begin{itemize}
 		\item Demographics (Classification)
@@ -198,7 +193,7 @@ Fakultet elektrotehnike i računarstva \\ % Your institution for the title page
 			\item XML format, 152 users
 			\item Age and gender labels
 			\begin{itemize}
-				\item 18-24, 25-34 34-49, 50+
+				\item 18-24, 25-34 35-49, 50+
 				\item M, F
 			\end{itemize}
 			\item Personality traits
@@ -207,6 +202,8 @@ Fakultet elektrotehnike i računarstva \\ % Your institution for the title page
 			\end{itemize}
 		\end{itemize}
 \end{itemize}
+\vspace{2mm}
+\centerline{\includegraphics[scale=0.5]{twitter-gender}}
 \end{frame}
 
 %------------------------------------------------
@@ -227,83 +224,248 @@ Fakultet elektrotehnike i računarstva \\ % Your institution for the title page
 		\item hashtags
 		\item @mentions
 		\item URLs
-		\item dupicates
+		\item stop words		
+		\item duplicates
+		
 	\end{itemize}
+	\vspace{-8mm}
+	\centerline{\includegraphics[scale=0.3]{cleaning}}
 \end{itemize}
 \end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Features}
-\begin{itemize}
-	\item Ovdje opisati što o featurima
-\end{itemize}
-\end{frame}
-
 
 %------------------------------------------------
 \section{Feature extraction}
 %------------------------------------------------
 
-%------------------------------------------------
 
 \begin{frame}
 \frametitle{Feature extraction}
+\begin{itemize}
+	\item Custom designed features
+	\item Extracted from publicly available resources
+\end{itemize}
+	\vspace{4mm}
+	\centerline{\includegraphics[scale=0.5]{orange}}
+\end{frame}
 
 
+\begin{frame}
+\frametitle{Features}
+\begin{itemize}
+	\setlength\itemsep{2mm}
+	\item Lexicon Features
+	\begin{itemize}
+		\item NRC Word-Emotion Association Lexicon
+		\item Internet slang word lexicon
+		\item Frequent male and female words lexicon
+		\item Frequent male and female function words lexicon
+	\end{itemize}
+	\item Twitter-specific Features
+	\begin{itemize}
+		\item hashtags
+		\item URLs
+		\item user mentions
+		\item emoticons
+	\end{itemize}
+\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+\frametitle{Features (cont'd)}
+\begin{itemize}
+	\setlength\itemsep{2mm}
+	\item Ortographic Features
+	\begin{itemize}
+		\item letter case
+		\item character flooding
+		\item word length
+		\item tweet length
+		\item specific characters (exclamation points, question marks, apostrophes...)
+	\end{itemize}
+	\item Term-level Features
+	\begin{itemize}
+		\item n-grams (TF-IDF matrices of unigrams and trigrams)
+		\item F-score
+	\end{itemize}
+\end{itemize}
 \end{frame}
 
 %------------------------------------------------
-\section{Supervised learning model}
+\section{Supervised learning models}
 %------------------------------------------------
 
 \begin{frame}
 \centering
-\frametitle{Models}
+\frametitle{Machine learning models}
+\begin{itemize}
+ 	\item Classification models
+ 	\begin{itemize}
+ 		\item Support Vector Machine Classification(SVC) with linear kernel and RBF kernel
+ 		\item Logistic Regression
+ 		\item Random Forest
+ 	\end{itemize}
+ 	\item Regression models
+ 	\begin{itemize}
+ 		\item Support Vector Machine Regression (SVR) with linear kernel and RBF kernel
+ 		\item Linear Regression
+ 	\end{itemize}
+ 	
+\end{itemize}
 
 \end{frame}
 %------------------------------------------------
 
-\begin{frame}
-\frametitle{Model selection}
-\centerline{Odabri modela.}
-\end{frame}
+%------------------------------------------------
 
+\begin{frame}
+\centering
+\frametitle{Model selection techniques}
+\begin{itemize}
+	\item Splitting the dataset into a training set and a test set (70–30\%)
+ 	\item Hyperparameter optimization
+ 	\begin{itemize}
+ 		\item Grid search
+ 		\item k-fold cross validation
+ 	\end{itemize}
+ 	\item Scaling feature values
+ 	\item Feature selection tools
+ 	\begin{itemize} 	
+ 		\item Tree-based feature selection
+ 		\item Recursive feature elimination
+ 	\end{itemize} 
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------
 %------------------------------------------------
 \section{Results}
 %------------------------------------------------
 
 \begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
 \frametitle{Results}
+\begin{itemize}
+	\item Age evaluation
+	\begin{itemize}
+		\item Best feature combination
+		\begin{itemize}
+			\item Twitter-specific features 
+			\item Orthographic features
+			\item TF-IDF scores of frequent trigrams
+		\end{itemize}
+	\end{itemize}
+	\item Gender evaluation
+	\begin{itemize}
+		\item Best feature combination
+		\begin{itemize}
+			\item Male and female based lexicons
+			\item Orthographic features
+			\item F-score measure
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+\begin{table}[h]
+\label{tab:narrow-table-3}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Subtask & Classifier & Accuracy score\\
+\midrule
+ Gender & SVM (RBF kernel) & 77.2 \% \\
+ Age & SVM (RBF kernel) & 76.1\%\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+\end{frame}
 
-\centerline{Rezultati.}
+%------------------------------------------------
+
+%------------------------------------------------
+
+\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
+\frametitle{Results (cont'd)}
+\begin{itemize}
+	\item Personality traits evaluation
+	\begin{itemize}
+		\item Best feature combination
+		\begin{itemize}
+			\item Word-emotion based lexicons 
+			\item F-score measure
+			\item POS tags frequencies
+			\item Orthographic features
+			
+		\end{itemize}
+		\item Root mean squared error(RMSE) measure between predicted and actual score
+	\end{itemize}
+\end{itemize}
+\begin{table}[h]
+\vspace{-3mm}
+\label{tab:narrow-table-4}
+\begin{center}
+\begin{tabular}{lcc}
+\midrule
+Personality trait & Regression model & RMSE\\
+\midrule
+ Extroverted & SVR  (RBF kernel) & 0.142 \\
+ Stable & SVR (RBF kernel)& 0.170 \\
+ Agreeable & SVR  (RBF kernel)& 0.145 \\
+ Conscientious & SVR  (RBF kernel)  & 0.153 \\
+ Open & SVR  (RBF kernel) & 0.156 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 \end{frame}
 
 %------------------------------------------------
 \begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
 \frametitle{Implementation}
-\vspace{1cm}
 \begin{itemize}
-\setlength\itemsep{1em}
-	\item Python Python
-	\item Sklearn Sklearn
-
+\setlength\itemsep{2mm}
+	\item All coding done in Python
+	\item Used libraries
+	\begin{itemize}
+	\vspace{1mm}
+	\setlength\itemsep{2mm}
+		\item scikit-learn
+		\begin{itemize}
+			\item ML models
+			\item Grid search
+			\item Feature selection tools
+			\item Cross-validation
+			\item Scalers (Standard, MinMax)
+		\end{itemize}
+		\item nltk
+		\begin{itemize}
+			\item POS tagger
+			\item TF-IDF vectorizer
+			\item Porter stemmer
+			\item Tweet tokenizer
+		\end{itemize}
+	\end{itemize}
 \end{itemize}
 
 
 \end{frame}
 
 %-----------------------------------------------
-
+\section{Conclusion}
 %------------------------------------------------
 
 \begin{frame}
 \frametitle{Conclusion}
-\vspace{1.25cm}
 \begin{itemize}
-\setlength\itemsep{1em}
-	\item Zaključak rada. 
+\setlength\itemsep{2mm}
+	\item Challenging task
+	\item Various combinations of features used for training our machine learning models
+	\item Good results
+	\item Future work:
+	\begin{itemize}
+		\item Evaluate on real test dataset
+		\item Use better feature selection tools
+		\item Better usage of lexicons
+	\end{itemize}
 \end{itemize}
 \end{frame}
 

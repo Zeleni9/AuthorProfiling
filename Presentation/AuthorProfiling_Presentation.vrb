@@ -1,10 +1,27 @@
 \frametitle{Implementation}
-\vspace{1cm}
 \begin{itemize}
-\setlength\itemsep{1em}
-	\item Python Python
-	\item Sklearn Sklearn
-
+\setlength\itemsep{2mm}
+	\item All coding done in Python
+	\item Used libraries
+	\begin{itemize}
+	\vspace{1mm}
+	\setlength\itemsep{2mm}
+		\item scikit-learn
+		\begin{itemize}
+			\item ML models
+			\item Grid search
+			\item Feature selection tools
+			\item Cross-validation
+			\item Scalers (Standard, MinMax)
+		\end{itemize}
+		\item nltk
+		\begin{itemize}
+			\item POS tagger
+			\item TF-IDF vectorizer
+			\item Porter stemmer
+			\item Tweet tokenizer
+		\end{itemize}
+	\end{itemize}
 \end{itemize}
 
 

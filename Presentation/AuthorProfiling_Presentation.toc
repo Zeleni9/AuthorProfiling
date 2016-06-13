@@ -2,6 +2,7 @@
 \beamer@sectionintoc {1}{Project topic}{3}{0}{1}
 \beamer@sectionintoc {2}{Dataset}{5}{0}{2}
 \beamer@sectionintoc {3}{Preprocessing}{6}{0}{3}
-\beamer@sectionintoc {4}{Feature extraction}{8}{0}{4}
-\beamer@sectionintoc {5}{Supervised learning model}{9}{0}{5}
-\beamer@sectionintoc {6}{Results}{11}{0}{6}
+\beamer@sectionintoc {4}{Feature extraction}{7}{0}{4}
+\beamer@sectionintoc {5}{Supervised learning models}{10}{0}{5}
+\beamer@sectionintoc {6}{Results}{12}{0}{6}
+\beamer@sectionintoc {7}{Conclusion}{15}{0}{7}
