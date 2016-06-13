@@ -99,6 +99,8 @@
 \usepackage{lmodern}
 \usepackage{lipsum}
 \usepackage{marvosym}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -137,8 +139,15 @@ Fakultet elektrotehnike i računarstva \\ % Your institution for the title page
 \begin{frame}
 \frametitle{Author Profiling}
 \begin{itemize}
-	\item Ovdje opisati što je author profiling
+	\item Identifying information about an author by analyzing their writing style
+	\item Distinguishes between classes of authors studying their sociolect aspect
+	\item Growing importance in forensics, security, marketing, and social networks
+
+	
+	
 \end{itemize}
+	\vspace{3mm}
+	\centerline{\includegraphics[scale=0.35]{author-profiling-task}}
 
 \end{frame}
 
@@ -149,13 +158,56 @@ Fakultet elektrotehnike i računarstva \\ % Your institution for the title page
 
 
 \begin{frame}
-\frametitle{Author Profiling using tweets}
+\frametitle{Our task}
+\vspace{-2mm}
 \begin{itemize}
-	\item Ovdje opisati što naš zadatak i dataset
+	\item Predicting author profiling aspects
+	\begin{itemize}
+		\item Demographics (Classification)
+		\begin{itemize}
+			\item age
+			\item gender
+		\end{itemize}
+		\item Big Five personality traits (Regression)
+		\begin{itemize}
+			\item extroversion
+			\item stability
+			\item agreeableness
+			\item conscientiousness
+			\item openness
+		\end{itemize}
+	\end{itemize}
 \end{itemize}
 \end{frame}
 
 
+
+%------------------------------------------------
+
+%------------------------------------------------
+\section{Dataset}
+%------------------------------------------------
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Dataset}
+\begin{itemize}
+	\item English tweets dataset from PAN 2015 competition
+	\begin{itemize}
+			\item XML format, 152 users
+			\item Age and gender labels
+			\begin{itemize}
+				\item 18-24, 25-34 34-49, 50+
+				\item M, F
+			\end{itemize}
+			\item Personality traits
+			\begin{itemize}
+				\item normalized numeric rating in [-0.5,0.5] range
+			\end{itemize}
+		\end{itemize}
+\end{itemize}
+\end{frame}
 
 %------------------------------------------------
 
@@ -168,7 +220,15 @@ Fakultet elektrotehnike i računarstva \\ % Your institution for the title page
 \begin{frame}
 \frametitle{Preprocessing}
 \begin{itemize}
-	\item Ovdje opisati što preprocessing.
+	\item Creating a document of tweets for each user
+	\item Cleaning tweets from
+	\begin{itemize}
+		\item XML tags
+		\item hashtags
+		\item @mentions
+		\item URLs
+		\item dupicates
+	\end{itemize}
 \end{itemize}
 \end{frame}
 
