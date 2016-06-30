@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.6.9)  30 JUN 2016 15:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.6.9)  1 JUL 2016 00:24
 entering extended mode
 **./tar-paper-template.tex
 (tar-paper-template.tex
@@ -678,14 +678,14 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(-147.95424pt, 773.91486pt, -28.45274pt)
+* h-part:(L,W,R)=(-230.46748pt, 856.4281pt, -28.45274pt)
 * v-part:(T,H,B)=(101.40665pt, 591.5302pt, 152.11pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=773.91486pt
+* \textwidth=856.4281pt
 * \textheight=591.5302pt
-* \oddsidemargin=-220.22423pt
-* \evensidemargin=-220.22423pt
+* \oddsidemargin=-302.73747pt
+* \evensidemargin=-302.73747pt
 * \topmargin=29.13666pt
 * \headheight=0.0pt
 * \headsep=0.0pt
@@ -704,29 +704,34 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
- [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+
+Overfull \hbox (0.99768pt too wide) in paragraph at lines 47--47
+ []$ 
+ []
+
+[1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 131.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 130.
 
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 131.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 130.
  [2]
 
-LaTeX Warning: Command \textendash invalid in math mode on input line 180.
+LaTeX Warning: Command \textendash invalid in math mode on input line 179.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Overfull \hbox (6.38428pt too wide) in paragraph at lines 221--229
+Overfull \hbox (6.38428pt too wide) in paragraph at lines 220--228
  [] 
  []
 
@@ -734,7 +739,7 @@ Overfull \hbox (6.38428pt too wide) in paragraph at lines 221--229
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Overfull \hbox (1.57378pt too wide) in paragraph at lines 239--250
+Overfull \hbox (1.57378pt too wide) in paragraph at lines 238--249
  [] 
  []
 
@@ -744,7 +749,7 @@ Overfull \hbox (1.57378pt too wide) in paragraph at lines 239--250
 Here is how much of TeX's memory you used:
  5439 strings out of 493335
  81496 string characters out of 3136684
- 178000 words of memory out of 3000000
+ 178018 words of memory out of 3000000
  8863 multiletter control sequences out of 15000+200000
  16600 words of font info for 38 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -757,7 +762,7 @@ sy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb>
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program
  Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files (x86
 )/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on tar-paper-template.pdf (5 pages, 109096 bytes).
+Output written on tar-paper-template.pdf (5 pages, 109136 bytes).
 PDF statistics:
  47 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

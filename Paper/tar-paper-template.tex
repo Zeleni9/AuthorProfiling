@@ -24,7 +24,7 @@
 \newcommand{\blank}[1]{\hspace*{#1}}
 \usepackage[labelfont=bf]{caption}
 
-\title{ Author Profiling}
+\title{ Author Profiling in English Tweets}
 
 \name{Filip Zelić, Borna Sirovica, Ivan-Dominik Ljubičić} 
 
@@ -38,7 +38,7 @@ ivan-dominik.ljubicic\}@fer.hr}\\
           
          
 \abstract{ 
-\newgeometry{left=-5.2cm,right=-1cm}
+\newgeometry{left=-8.1cm,right=-1cm}
 In this paper, we present our approach to the author profiling task, a student project for Text Analysis and Retrieval course. Given a set of tweets by the same person, the task aims at identifying age, gender and personality traits of that person. We address age and gender prediction as a classification task and a personality prediction as a regression problem. We experimented with Support Vector Machine for classification and regression and other machine learning algorithms using a variety of custom designed features as well as features extracted from publicly available resources.\\
 }
 
@@ -50,11 +50,10 @@ In this paper, we present our approach to the author profiling task, a student p
 
 Author profiling distinguishes between classes of authors by studying their sociolect aspect, i.e., how language is shared or how an author can be characterized from a psychological viewpoint. This information helps in identifying profiling aspects such as gender, age, native language, or personality type. 
 \par
-\vspace{1mm}
 Author profiling is a problem of growing importance, among others for applications in forensics, security, and marketing. However, social profiling still remains a less-explored topic, even though the exponential growth of social networks increased its importance even further. While there were several publications that were trying to predict some demographical information such as gender, age, and native language \citep{argamon2003}, \citep{peersman2011}, as well as the personality type, and to perform author profiling in general \citep{argamon2009}, the real push forward was enabled by specialized competitions such as the PAN shared tasks on author profiling \citep{pardo2013}, \citep{rangel2014}, \citep{rangel2015}, which ran in 2013–2015. 
-\par\vspace{1mm}
+\par
 This paper presents our approach to the author profiling task. The task focused on predicting an author’s demographics (age and gender) and the big five personality traits \citep{mccrae2008} (agreeable, conscientious, extroverted, open, stable) from a set of tweets by the same target author.
-\par\vspace{1mm}
+\par\
 This paper is organized as follows: Section 2
 gives a detailed description of dataset used for
 training and testing of our model. Section 3
@@ -115,7 +114,7 @@ Open     & 0.24\\
 
 \section{Approach}
 
-Along this section, we describe the steps we took to prepare features for the training of our supervised machine learning models. In subsection 3.1 we explain the preprocessing step in which we cleaned the data in order to get better performances for stylometric features. Subsection 3.2 explains extraction of various features for each separate subtask (age, gender and personality traits) and last subsection 3.3 describes classification and regression models we used tackling the task of author profiling.
+Along this section, we describe the steps we took to prepare features for the training of our supervised machine learning models. In subsection 3.1 we explain the preprocessing step in which we cleaned the data in order to get better performances for stylometric features. Subsection 3.2 explains extraction of various features organized by their category and the last subsection 3.3 describes classification and regression models we used tackling the task of author profiling.
 
 \subsection{Preprocessing}
 
@@ -209,7 +208,7 @@ Values of features were scaled using StandardScaler from sklearn python library 
 \vspace{2mm}
 \section{Evaluation}
 After extraction of features and normalization of feature values, we trained models from Section 3.3  on 70\% of data and evaluated them on other 30\% of data trough multiple iterations in which train and test data were shuffled. In this process we tried combinations of many features from Section 3.2 for each subtask. Best feature combinations are stated in the next few paragraphs. 
-\par\vspace{1mm}
+\par
 Regarding age subtask best scores were achieved using combinations of twitter-specific  and orthographic features along with TF-IDF scores of frequent trigrams. SVM model with RBF kernel proved to be the best choice model wise.
 \par
 In Gender classification subtask best results were obtained with the usage of male and female based lexicons together with orthographic features and F-score measure. SVM model with RBF kernel was proven to be the best choice for model selection also. The results of these two classification subtasks are given in the Table~\ref{tab:narrow-table-3}.
@@ -228,7 +227,7 @@ Subtask & Classifier & Accuracy score\\
 \end{tabular}
 \end{center}
 \end{table}
-\par\vspace{-5mm}
+\par
 Personality traits subtask was modeled as a regression problem. For every trait we chose the most appropriate feature combination which in general included word-emotion based lexicons as well as the F-score measure, POS tags frequencies and orthographic features such as upper-case word count, average tweet length and exclamation overload count. To measure accuracy of personality traits prediction root mean squared error (RMSE) measure was used. Lowest errors between predicted and actual scores were obtained using SVM Regression model. Results of this task are given in following Table~\ref{tab:narrow-table-4}.
 \begin{table}[h]
 \vspace{1mm}
@@ -254,9 +253,9 @@ Personality trait & Regression model & RMSE\\
 \section{Conclusion and future work}
 
 This paper proposes a supervised machine learning technique for solving the author profiling problem of determining author's age, gender and Big Five personality traits trough feature extraction from tweet corpus. 
-\par\vspace{1mm}
+\par
 Tackling this challenging task we combined a large number of various features in order to train and evaluate our machine learning models. The main problem was that we could not evaluate our models on the most real case scenario because we did not find a publicly available evaluation dataset so the models were evaluated on 30\% of the training dataset.
-\par\vspace{1mm}
+\par
 Even though evaluation showed good results for age gender and personality trait prediction  \citep{rangel2015}, we feel that there is a lot more to gain. For example, in the future work we could develop a more sophisticated approach for personality trait identification, considering more specific features and preprocessing for each personality trait separately. We could also experiment with descriptive LSA (Latent Semantic Analysis) and discriminative SOA (Second Order Attributes) features analyzed in paper \citep{escalante2015}.
 
 \bibliographystyle{tar2016}
