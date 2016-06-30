@@ -24,7 +24,7 @@
 \newcommand{\blank}[1]{\hspace*{#1}}
 \usepackage[labelfont=bf]{caption}
 
-\title{ Author profiling}
+\title{ Author Profiling}
 
 \name{Filip Zelić, Borna Sirovica, Ivan-Dominik Ljubičić} 
 
@@ -53,7 +53,7 @@ Author profiling distinguishes between classes of authors by studying their soci
 \vspace{1mm}
 Author profiling is a problem of growing importance, among others for applications in forensics, security, and marketing. However, social profiling still remains a less-explored topic, even though the exponential growth of social networks increased its importance even further. While there were several publications that were trying to predict some demographical information such as gender, age, and native language \citep{argamon2003}, \citep{peersman2011}, as well as the personality type, and to perform author profiling in general \citep{argamon2009}, the real push forward was enabled by specialized competitions such as the PAN shared tasks on author profiling \citep{pardo2013}, \citep{rangel2014}, \citep{rangel2015}, which ran in 2013–2015. 
 \par\vspace{1mm}
-This paper presents our approach for the author profiling task. The task focused on predicting an author’s demographics (age and gender) and the big five personality traits \citep{mccrae2008} (agreeable, conscientious, extroverted, open, stable) from a set of tweets by the same target author.
+This paper presents our approach to the author profiling task. The task focused on predicting an author’s demographics (age and gender) and the big five personality traits \citep{mccrae2008} (agreeable, conscientious, extroverted, open, stable) from a set of tweets by the same target author.
 \par\vspace{1mm}
 This paper is organized as follows: Section 2
 gives a detailed description of dataset used for
@@ -68,8 +68,8 @@ to possible directions for future work.
 
 \section{Dataset}
 
-The dataset we used consisted of English tweets from 152 users in XML format along with one \textit{truth.txt} file with age, gender and the Big Five personality traits labels for each user \citep{dataset2015}. For labeling age, the following classes were considered: 1) 18-24, 2) 25-34, 3) 35-49, 4) 50+ and gender was labeled as male (M) or female (F). The distribution of the gender and age labels in the corpus is reported in Table~\ref{tab:narrow-table-1}. For the case of gender classes the corpus was balanced with 50\% of the tweets labeled as male and other half as female, but regarding age the      
-distribution was skewed due to the lower number (around 22\%) of the older users (labels \textit{35-49} and \textit{50+}) and higher number (around 78\%) of the younger users (labels \textit{18-24} and \textit{25-34}).
+The dataset we used consisted of English tweets from 152 users in XML format along with one \textit{truth.txt} file with age, gender and the Big Five personality traits labels for each user \citep{dataset2015}. For labeling age, the following classes were considered: 1) 18\textemdash 24, 2) 25\textemdash 34, 3) 35\textemdash 49, 4) 50+ and gender was labeled as male (M) or female (F). The distribution of the gender and age labels in the corpus is reported in Table~\ref{tab:narrow-table-1}. For the case of gender classes the corpus was balanced with 50\% of the tweets labeled as male and other half as female, but regarding age the      
+distribution was skewed due to the lower number (around 22\%) of the older users (labels \textit{35\textemdash 49} and \textit{50+}) and higher number (around 78\%) of the younger users (labels \textit{18\textemdash 24} and \textit{25\textemdash 34}).
 \begin{table}[h]
 \caption{Distribution of Twitter users with respect to the age and gender labels in the corpus.}
 \label{tab:narrow-table-1}
@@ -80,9 +80,9 @@ distribution was skewed due to the lower number (around 22\%) of the older users
 Trait & Label & Number of users\\
 \midrule
 \multirow{4}{*}{Age}
-		&18-24   & 58\\
-    &25-34   & 60\\
-    &35-49   & 22\\
+		&18\textemdash 24   & 58\\
+    &25\textemdash 34   & 60\\
+    &35\textemdash 49   & 22\\
     &50+   & 12\\
 \midrule
 \multirow{2}{*}{Gender}
@@ -232,7 +232,7 @@ Subtask & Classifier & Accuracy score\\
 Personality traits subtask was modeled as a regression problem. For every trait we chose the most appropriate feature combination which in general included word-emotion based lexicons as well as the F-score measure, POS tags frequencies and orthographic features such as upper-case word count, average tweet length and exclamation overload count. To measure accuracy of personality traits prediction root mean squared error (RMSE) measure was used. Lowest errors between predicted and actual scores were obtained using SVM Regression model. Results of this task are given in following Table~\ref{tab:narrow-table-4}.
 \begin{table}[h]
 \vspace{1mm}
-\caption{Age and Gender prediction accuracy}
+\caption{Personality traits prediction accuracy}
 \label{tab:narrow-table-4}
 \vspace{-6mm}
 \begin{center}
@@ -255,7 +255,7 @@ Personality trait & Regression model & RMSE\\
 
 This paper proposes a supervised machine learning technique for solving the author profiling problem of determining author's age, gender and Big Five personality traits trough feature extraction from tweet corpus. 
 \par\vspace{1mm}
-Tackling this challenging task we combined a large number of various features in order to train and evaluate our machine learning models. The main problem was that we couldn't evaluate our models on the most real case scenario because we didn't find publicly available evaluation dataset so the models were evaluated on 30\% of the training dataset.
+Tackling this challenging task we combined a large number of various features in order to train and evaluate our machine learning models. The main problem was that we could not evaluate our models on the most real case scenario because we did not find a publicly available evaluation dataset so the models were evaluated on 30\% of the training dataset.
 \par\vspace{1mm}
 Even though evaluation showed good results for age gender and personality trait prediction  \citep{rangel2015}, we feel that there is a lot more to gain. For example, in the future work we could develop a more sophisticated approach for personality trait identification, considering more specific features and preprocessing for each personality trait separately. We could also experiment with descriptive LSA (Latent Semantic Analysis) and discriminative SOA (Second Order Attributes) features analyzed in paper \citep{escalante2015}.
 
