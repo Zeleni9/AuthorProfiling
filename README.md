@@ -4,13 +4,13 @@ https://www.fer.unizg.hr/en/course/taar
 
 ## TAR Project - Author Profiling
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Student project using Author Profiling in English Tweets.
 
 ### Prerequisites
 
-What things you need to run the program
+What python libraries you need to run the program
 ``
- nltk (punkt, averaged_perceptron_tagger)
+ nltk(punkt, averaged_perceptron_tagger)
  sklearn
  xml
 ``
