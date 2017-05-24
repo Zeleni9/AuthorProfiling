@@ -1,19 +1,13 @@
-# Minesweepers_AuthorProfiling
+# Text Analysis and Retrieval Course
 Nature Language Proccessing - TAR Project - Author Profiling
+https://www.fer.unizg.hr/en/course/taar
 
-# Python libraries
-Machine Learning in Python
-http://scikit-learn.org/stable/
+requires:
+    - nltk (punkt, averaged_perceptron_tagger)
+    - sklearn
+    - xml
 
-NumPy - an efficient multi-dimensional container of generic data
-http://www.numpy.org/
-
-
-## Dataset
-https://github.com/dmincu/Author-Profiling/tree/master/pan15-author-profiling-training-dataset-2015-03-02
-
-## Tutorial Machine Learning
-https://www.coursera.org/learn/machine-learning
+Start program using  $python main.py
 
 
 ## Useful resources NLP

@@ -5,14 +5,14 @@ from collections import defaultdict
 class Preprocess:
 
     def __init__(self, folder):
-        self.folder = folder
+        self.folder = folder + '/english_dataset'
 
     def load_data(self):
         users = defaultdict(list)
         files = os.listdir(self.folder)
         truth = files.pop(0)
 
-        path =  os.getcwd()
+        path =  os.getcwd() + '/english_dataset'
         for xml in files:
             text = []
             tree = ET.parse(path + '/' + xml)
@@ -28,7 +28,8 @@ class Preprocess:
     # splitting truth data per user to tokens (age, gender, big five classes)
     def truth_data(self):
         tmp = defaultdict(list)
-        with open(self.truth_file) as f:
+        path = os.path.join(self.folder, self.truth_file)
+        with open(path) as f:
             data = f.readlines()
             for user in data:
                 token = user.split(":::")
@@ -43,4 +44,3 @@ class Preprocess:
 
     def get_data(self):
         return self.users, self.truth_users
-

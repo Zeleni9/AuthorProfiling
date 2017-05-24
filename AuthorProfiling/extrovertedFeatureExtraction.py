@@ -68,13 +68,6 @@ class ExtrovertedFeatureExtraction(BigFiveFeatureExtraction):
             F_score = self.calculate_F_Score(pos_tags)
             self.structural_features[key].append(F_score)
 
-            # preposition_count=self.get_pos_tag_count(pos_tags, "VBP")
-            # self.structural_features[key].append(preposition_count)
-
-            # article_count = self.count_feature_from_file(text, ['and','the','a'])
-            # self.structural_features[key].append(article_count)
-
-
             first_person_pronouns_count = self.count_feature_from_file(text, ['i','we','me','us','our','mine','ours'])
             self.structural_features[key].append(first_person_pronouns_count)
 

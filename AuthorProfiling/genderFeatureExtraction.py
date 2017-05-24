@@ -97,14 +97,6 @@ class GenderFeatureExtraction(FeatureExtraction):
 
     def get_gender_preferential_features(self,input):
         gender_preferential_features=[]
-        #gender_preferential_features.append(len(re.findall(r'\b(\w*able)\b',input)))
-        #gender_preferential_features.append(len(re.findall(r'\b(\w*al)\b',input)))
-        #gender_preferential_features.append(len(re.findall(r'\b(\w*ful)\b', input)))
-        #gender_preferential_features.append(len(re.findall(r'\b(\w*ible)\b', input)))
-        #gender_preferential_features.append(len(re.findall(r'\b(\w*ic)\b', input)))
-        #gender_preferential_features.append(len(re.findall(r'\b(\w*ive)\b', input)))
-        #gender_preferential_features.append(len(re.findall(r'\b(\w*less)\b', input)))
-        #gender_preferential_features.append(len(re.findall(r'\b(\w*ly)\b', input)))
         gender_preferential_features.append(len(re.findall(r'\b(\w*ous)\b', input)))
         return gender_preferential_features
 

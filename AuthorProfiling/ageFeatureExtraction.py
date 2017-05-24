@@ -22,18 +22,9 @@ class AgeFeatureExtraction(FeatureExtraction):
             text, url_count = self.process_links(value)
             self.structural_features[key].append(url_count)
 
-            text, mention_count = self.process_mentions(text)
-            #self.structural_features[key].append(mention_count)
-
-            text, hashtag_count = self.process_hashtags(text)
-            #self.structural_features[key].append(hashtag_count)
-
             # uppercase words count
             uppercase_words_count = self.uppercase_words_count(value)
             self.structural_features[key].append(uppercase_words_count)
-
-            stopwords_count = self.count_stopwords(text)
-            #self.structural_features[key].append(stopwords_count)
 
             # character overload count
             char_count = self.char_count(''.join(value))
@@ -47,10 +38,6 @@ class AgeFeatureExtraction(FeatureExtraction):
             # word length ratio
             word_length_avg = self.word_length_avg(value)
             self.structural_features[key].append(word_length_avg)
-
-            # swag count
-            swag_count = self.count_feature_from_file(text, self.swag_words)
-            #self.structural_features[key].append(swag_count)
 
             # ...+ count
             three_dot_count=self.three_dot_count(text)
@@ -76,7 +63,6 @@ class AgeFeatureExtraction(FeatureExtraction):
                 frequent_trigrams += 1
 
         self.structural_features = self.append_ngram_tfidf_features(self.get_trigrams_tf_idf(docs, frequent_trigrams), self.structural_features)
-        #self.structural_features = self.append_ngram_tfidf_features(self.get_unigrams_tf_idf(docs, 1000), self.structural_features)
 
         self.data = self.join_users_truth(self.structural_features, self.transform_age, self.type)
         self.feature_number = len(self.structural_features.values()[0])

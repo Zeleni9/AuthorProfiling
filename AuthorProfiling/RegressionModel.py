@@ -53,4 +53,3 @@ class RegressionModel():
         print "SVM with linear kernel               : ", score_svr_mean/self.iterations
         print "SVM with rbf kernel                  : ", score_svr_default_mean/self.iterations
         print "Linear regression                    : ", score_lr_mean/self.iterations
-

@@ -29,13 +29,7 @@ class AgreeableFeatureExtraction(BigFiveFeatureExtraction):
 
         for key, value in self.sorted_users.iteritems():
 
-            text, url_count = self.process_links(value)
-            #self.structural_features[key].append(url_count)
-
-            text, mention_count = self.process_mentions(text)
-            #self.structural_features[key].append(mention_count)
-
-            text, hashtag_count = self.process_hashtags(text)
+            text, hashtag_count = self.process_hashtags(value)
             self.structural_features[key].append(hashtag_count)
 
             stopwords_count = self.count_stopwords(text)

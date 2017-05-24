@@ -13,13 +13,13 @@ from openFeatureExtraction import OpenFeatureExtraction
 from regressionModel import RegressionModel
 from classificationModel import ClassificationModel
 
-PATH_TO_WORD_FILES= '/Users/filipzelic/Documents/Minesweepers_AuthorProfiling/AuthorProfiling/word_files/'
+PATH_TO_WORD_FILES= os.getcwd() +  '/word_files/'
 STOP_WORDS_PATH= PATH_TO_WORD_FILES + 'stopwords.txt'
 SWAG_WORDS_PATH= PATH_TO_WORD_FILES + 'swag_words.txt'
 FREQUENT_MALE_WORDS_PATH= PATH_TO_WORD_FILES + 'frequent_male_words.txt'
 FREQUENT_FEMALE_WORDS_PATH= PATH_TO_WORD_FILES + 'frequent_female_words.txt'
 
-#for personality traits
+# for personality traits
 POSITIVE_WORDS = PATH_TO_WORD_FILES + 'positive_words.txt'
 NEGATIVE_WORDS = PATH_TO_WORD_FILES + 'negative_words.txt'
 ANGER_WORDS = PATH_TO_WORD_FILES + 'anger_words.txt'
@@ -35,8 +35,9 @@ TRUST_WORDS = PATH_TO_WORD_FILES + 'trust_words.txt'
 def main():
     start_time=time.time()
     path = os.getcwd()
-    # nltk.download('punkt')
-    # nltk.download('averaged_perceptron_tagger')
+
+    #nltk.download('averaged_perceptron_tagger')
+    #nltk.download('punkt')
     pre_process = Preprocess(path)
     pre_process.load_data()
     pre_process.truth_data()
